@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+
 @Service
 public class VacatureService {
 	@Autowired
@@ -24,8 +25,8 @@ public class VacatureService {
 		repository.save(vacature);		
 	}
 
-	public void deleteVacature(Vacature vacature) {
-		repository.delete(vacature);
+	public void deleteVacature(long vacature) {
+		repository.deleteById(vacature);
 	}
 	
 	public Optional<Vacature> findVacature(long id) {

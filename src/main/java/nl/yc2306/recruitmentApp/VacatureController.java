@@ -20,7 +20,11 @@ public class VacatureController {
 	@Autowired
 	private VacatureService service;
 	
+<<<<<<< HEAD
+	@RequestMapping(method = RequestMethod.PUT, value = "vacature/update/{vacatureId}")
+=======
 	@RequestMapping(method = RequestMethod.PUT, value = "vacature/update/{vactureId}")
+>>>>>>> 529e31068ef30f2284898b6b6b666ce6cf5fea71
 	public void update(@PathVariable long vacatureId, @RequestBody Vacature newVacature) {
 		// Steps to adjust
 		// Step 1 - find current person
@@ -37,11 +41,16 @@ public class VacatureController {
 	}
 	
 	@RequestMapping(method = RequestMethod.DELETE, value = "vacature/delete/{vacatureId}")
+<<<<<<< HEAD
+	public void delete(@PathVariable long vacatureId, @RequestBody Vacature removingVacature) {
+=======
 	public void delete(@PathVariable long vacatureId) {
 		
+>>>>>>> 529e31068ef30f2284898b6b6b666ce6cf5fea71
 		service.deleteVacature(vacatureId);
 	}
 	
+
 	@RequestMapping(method = RequestMethod.POST, value = "vacature/create")
 	public void maakAan(@RequestBody Vacature vacature) {
 		System.out.println("Het naam van de bedrijf is "  + vacature.getBedrijf());

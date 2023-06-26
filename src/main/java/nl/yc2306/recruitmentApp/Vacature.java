@@ -11,7 +11,7 @@ public class Vacature {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long vactureId;
+	private long vacatureId;
 	
 	@Column(nullable = false)
 	private int personid;
@@ -31,12 +31,12 @@ public class Vacature {
 	@Column(length = 200, nullable = false)
 	private String functie;
 
-	public long getVactureId() {
-		return vactureId;
+	public long getVacatureId() {
+		return vacatureId;
 	}
 
-	public void setVactureId(long vactureId) {
-		this.vactureId = vactureId;
+	public void setVacatureId(long vactureId) {
+		this.vacatureId = vactureId;
 	}
 
 	public int getPersonid() {

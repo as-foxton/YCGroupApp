@@ -20,11 +20,11 @@ public class VacatureController {
 	@Autowired
 	private VacatureService service;
 	
-	@RequestMapping(method = RequestMethod.PUT, value = "vacature/update/{id}")
-	public void update(@PathVariable long id, @RequestBody Vacature newVacature) {
+	@RequestMapping(method = RequestMethod.PUT, value = "vacature/update/{vacatureId}")
+	public void update(@PathVariable long vacatureId, @RequestBody Vacature newVacature) {
 		// Steps to adjust
 		// Step 1 - find current person
-		Optional<Vacature> optional = service.findVacature(id);
+		Optional<Vacature> optional = service.findVacature(vacatureId);
 		
 		
 		//Step 2 - Adjust
@@ -36,12 +36,12 @@ public class VacatureController {
 		
 	}
 	
-	@RequestMapping(method = RequestMethod.DELETE, value = "vacature/delete/{id}")
-	public void delete(@RequestBody Vacature vacature) {
-		System.out.println("Het deleted bedrijf is "  + vacature.getBedrijf());
-		service.deleteVacature(vacature);
+	@RequestMapping(method = RequestMethod.DELETE, value = "vacature/delete/{vacatureId}")
+	public void delete(@PathVariable long vacatureId, @RequestBody Vacature removingVacature) {
+		service.deleteVacature(vacatureId);
 	}
 	
+
 	@RequestMapping(method = RequestMethod.POST, value = "vacature/create")
 	public void maakAan(@RequestBody Vacature vacature) {
 		System.out.println("Het naam van de bedrijf is "  + vacature.getBedrijf());

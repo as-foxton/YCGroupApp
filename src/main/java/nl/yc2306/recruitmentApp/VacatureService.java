@@ -24,12 +24,13 @@ public class VacatureService {
 		repository.save(vacature);		
 	}
 
-	public void deleteVacature(Vacature vacature) {
-		repository.delete(vacature);
+	public void deleteVacature(long id) {
+		repository.deleteById(id);
 	}
 	
 	public Optional<Vacature> findVacature(long id) {
 		return repository.findById(id);
 	}
+	
 
 }

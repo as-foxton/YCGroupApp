@@ -1,4 +1,7 @@
 bin/**
+
+.DS_Store
+
 .mvn/**
 HELP.md
 target/

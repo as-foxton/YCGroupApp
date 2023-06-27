@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 
-
-
 @RestController
-@CrossOrigin(maxAge=3600)
+@CrossOrigin(maxAge = 3600)
+
 public class AccountController {
 	@Autowired
 	private AccountService service;

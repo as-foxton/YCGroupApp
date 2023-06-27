@@ -21,17 +21,17 @@ public class CurriculumVitaeController {
         return curriculumVitaeService.getOne(id);
     }
 
-    @RequestMapping("curriculum_vitae/add")
+    @RequestMapping(method=RequestMethod.POST, value="curriculum_vitae/add")
     public void add(@RequestBody CurriculumVitae cv){
         curriculumVitaeService.Save(cv);
     }
 
-    @RequestMapping("curriculum_vitae/remove")
+    @RequestMapping(method=RequestMethod.DELETE, value="curriculum_vitae/remove")
     public void remove(@RequestParam long id){
         curriculumVitaeService.delete(id);
     }
 
-    @RequestMapping("curriculum_vitae/update")
+    @RequestMapping(method=RequestMethod.PUT, value="curriculum_vitae/update")
     public void update(@RequestParam long id, @RequestBody CurriculumVitae cv){
         CurriculumVitae current = curriculumVitaeService.getOne(id).get();
         current.setOmschrijving(cv.getOmschrijving());

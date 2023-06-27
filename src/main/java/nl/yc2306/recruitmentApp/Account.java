@@ -18,6 +18,8 @@ public class Account {
 	private String rol;
 	@Column (length=150, nullable=false)
 	private String email;
+	@Column (length=150, nullable=false)
+	private String wachtwoord;
 	@Column (length=150, nullable=true)
 	private String bedrijf;
 	@Column (length=150, nullable=false)
@@ -58,6 +60,12 @@ public class Account {
 	public void setLocatie(String locatie) {
 		this.locatie = locatie;
 	}
-	
-	
+
+	public String getWachtwoord() {
+		return wachtwoord;
+	}
+
+	public void setWachtwoord(String wachtwoord) {
+		this.wachtwoord = wachtwoord;
+	}
 }

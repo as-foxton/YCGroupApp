@@ -20,8 +20,8 @@ public class VacatureController {
 	@Autowired
 	private VacatureService service;
 
-
-	@RequestMapping(method = RequestMethod.PUT, value = "vacature/update/{vactureId}")
+	
+	@RequestMapping(method = RequestMethod.PUT, value = "vacature/update/{vacatureId}")
 	public void update(@PathVariable long vacatureId, @RequestBody Vacature newVacature) {
 		// Steps to adjust
 		// Step 1 - find current person
@@ -39,7 +39,6 @@ public class VacatureController {
 	
 	@RequestMapping(method = RequestMethod.DELETE, value = "vacature/delete/{vacatureId}")
 	public void delete(@PathVariable long vacatureId) {
-		
 		service.deleteVacature(vacatureId);
 	}
 	

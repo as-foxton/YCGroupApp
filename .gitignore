@@ -37,7 +37,10 @@ build/
 
 ### VS Code ###
 .vscode/
+<<<<<<< HEAD
+=======
 
 
 
+>>>>>>> main
 /bin/

@@ -3,11 +3,17 @@ package nl.yc2306.recruitmentApp;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
 @CrossOrigin(maxAge = 3600)
+
 public class AccountController {
 	@Autowired
 	private AccountService service;
@@ -30,15 +36,16 @@ public class AccountController {
 	// update
 	@RequestMapping(method=RequestMethod.PUT, value= "account/update/{id}")
 	public void update(@PathVariable long id, @RequestBody Account newAccount) {
-		//vind huidige baan
+		//vind huidig account
 		Optional<Account> optional = service.vindDmvId(id);
-		// huidige Baan aanpassen
+		// huidig account aanpassen
 		Account dbAccount= optional.get();
 		dbAccount.setBedrijf(newAccount.getBedrijf());
 		dbAccount.setEmail(newAccount.getEmail());
 		dbAccount.setLocatie(newAccount.getLocatie());
 		dbAccount.setNaam(newAccount.getNaam());
 		dbAccount.setRol(newAccount.getRol());
+		dbAccount.setWachtwoord(newAccount.getWachtwoord());
 		// opslaan
 		service.save(dbAccount);
 		

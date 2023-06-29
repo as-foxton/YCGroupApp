@@ -19,6 +19,7 @@ public class VacatureController {
 
 	@Autowired
 	private VacatureService service;
+
 	
 	@RequestMapping(method = RequestMethod.PUT, value = "vacature/update/{vacatureId}")
 	public void update(@PathVariable long vacatureId, @RequestBody Vacature newVacature) {

@@ -3,12 +3,7 @@ package nl.yc2306.recruitmentApp;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
@@ -35,6 +30,11 @@ public class FeedbackController {
 	public void SaveFeedback(@RequestBody Feedback feedback)
 	{
 		service.Save(feedback);
+	}
+	@RequestMapping(method = RequestMethod.POST, value = "feedback/savetocv")
+	public void SaveFeedbackToCV(@RequestBody Feedback feedback, @RequestParam long cvId)
+	{
+		service.SaveToCV(feedback, cvId);
 	}
 
 	// UPDATE

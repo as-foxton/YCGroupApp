@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 public class FeedbackService {
 	@Autowired
 	private IFeedbackRepository repo;
+	@Autowired
+	private CurriculumVitaeService cvService;
 
 	public Iterable<Feedback> GetAll() {
 		return repo.findAll();
@@ -17,6 +19,14 @@ public class FeedbackService {
 	public Feedback Save(Feedback feedback)
 	{
 		return repo.save(feedback);
+	}
+
+	public Feedback SaveToCV(Feedback feedback, long cvId){
+		Feedback withId = Save(feedback);
+		CurriculumVitae cv = cvService.getOne(cvId).get();
+		cv.addFeedback(withId);
+		cvService.Save(cv);
+		return  withId;
 	}
 
 	public Optional<Feedback> Find(long id) {

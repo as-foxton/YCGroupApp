@@ -36,15 +36,16 @@ public class AccountController {
 	// update
 	@RequestMapping(method=RequestMethod.PUT, value= "account/update/{id}")
 	public void update(@PathVariable long id, @RequestBody Account newAccount) {
-		//vind huidige baan
+		//vind huidig account
 		Optional<Account> optional = service.vindDmvId(id);
-		// huidige Baan aanpassen
+		// huidig account aanpassen
 		Account dbAccount= optional.get();
 		dbAccount.setBedrijf(newAccount.getBedrijf());
 		dbAccount.setEmail(newAccount.getEmail());
 		dbAccount.setLocatie(newAccount.getLocatie());
 		dbAccount.setNaam(newAccount.getNaam());
 		dbAccount.setRol(newAccount.getRol());
+		dbAccount.setWachtwoord(newAccount.getWachtwoord());
 		// opslaan
 		service.save(dbAccount);
 		

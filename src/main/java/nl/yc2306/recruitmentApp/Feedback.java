@@ -57,12 +57,3 @@ public class Feedback {
 		this.aangenomen = aangenomen;
 	}
 }
-
-//"Feedback":
-//{
-//	"feedback_nr": ,
-//	"cv_nr": ,
-//	"persoons_nr": ,
-//	"mening": "",
-//	"aangenomen": "",
-//}

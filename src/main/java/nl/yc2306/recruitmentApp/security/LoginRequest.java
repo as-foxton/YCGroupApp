@@ -1,4 +1,4 @@
-package nl.yc2306.recruitmentApp;
+package nl.yc2306.recruitmentApp.security;
 
 public class LoginRequest {
     private String username;

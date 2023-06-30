@@ -1,4 +1,4 @@
-package nl.yc2306.recruitmentApp;
+package nl.yc2306.recruitmentApp.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +18,10 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(HttpMethod.POST,"/login").permitAll()
-                        .requestMatchers("/", "/home").permitAll()
+                        .requestMatchers("/", "/home","/login").permitAll()
                         .anyRequest().authenticated()
                 );
 

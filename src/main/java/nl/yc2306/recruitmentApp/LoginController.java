@@ -40,7 +40,6 @@ public class LoginController {
     // try to authenticate
     @PostMapping
     public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginRequest authenticationRequest) throws AuthenticationException {
-
         // Perform the security
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -48,6 +47,7 @@ public class LoginController {
                         authenticationRequest.getPassword()
                 )
         );
+        System.out.println("after auth");
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // Reload password post-security so we can generate token

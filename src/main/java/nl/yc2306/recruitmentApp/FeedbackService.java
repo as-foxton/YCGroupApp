@@ -11,6 +11,9 @@ public class FeedbackService {
 	private IFeedbackRepository repo;
 	@Autowired
 	private CurriculumVitaeService cvService;
+	@Autowired
+	private AccountService accountService;
+	
 
 	public Iterable<Feedback> GetAll() {
 		return repo.findAll();
@@ -36,5 +39,9 @@ public class FeedbackService {
 	public void delete(long id)
 	{
 		repo.deleteById(id);
+	}
+	
+	public Optional<Account> FindAccount(long id) {
+		return accountService.vindBijId(id);
 	}
 }

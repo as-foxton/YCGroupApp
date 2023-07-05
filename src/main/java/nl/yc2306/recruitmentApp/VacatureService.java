@@ -17,24 +17,17 @@ public class VacatureService {
 		return repository.findAll();		
 	}
 	
-	public Optional<Vacature> enigeVacature(long id) {
-		return repository.findById(id);
+	public Optional<Vacature> findVacatureById(long vacatureId) {
+		return repository.findById(vacatureId);
 	}
 	
 	public void saveVacature(Vacature vacature) {
-		repository.save(vacature);		
+	    // Use your data access object or repository to save the vacature to the database
+	    repository.save(vacature);
 	}
 
 
 	public void deleteVacature(long vacatureId) {
 		repository.deleteById(vacatureId);
 	}
-
-
-	
-	public Optional<Vacature> findVacature(long id) {
-		return repository.findById(id);
 	}
-	
-
-}

@@ -24,6 +24,8 @@ public class Account {
 	private String bedrijf;
 	@Column (length=150, nullable=false)
 	private String locatie;
+	
+	
 	public long getPersoons_nr() {
 		return persoons_nr;
 	}

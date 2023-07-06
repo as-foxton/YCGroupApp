@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(maxAge = 3600)
 public class FeedbackController {
 	@Autowired
 	public FeedbackService service;
 	
-	// GET ALL
+	// GET ALL Feedback
 	@RequestMapping("feedback/all")
 	public Iterable<Feedback> GetAllFeedback()
 	{
@@ -23,6 +23,13 @@ public class FeedbackController {
 	public Optional<Feedback> FindFeedback(@PathVariable long id)
 	{
 		return service.Find(id);
+	}
+	
+	// GET
+	@RequestMapping("feedback/findaccount/{id}")
+	public Optional<Account> FindAccount(@PathVariable long id)
+	{
+		return service.FindAccount(id);
 	}
 	
 	// SAVE

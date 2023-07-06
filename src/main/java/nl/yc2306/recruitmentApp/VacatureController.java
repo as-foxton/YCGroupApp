@@ -17,41 +17,45 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(maxAge=2030)
 public class VacatureController {
 
-	@Autowired
-	private VacatureService service;
+@Autowired
+private VacatureService service;
 
 	
-	@RequestMapping(method = RequestMethod.PUT, value = "vacature/update/{vacatureId}")
-	public void update(@PathVariable long vacatureId, @RequestBody Vacature newVacature) {
-		// Steps to adjust
-		// Step 1 - find current person
-		Optional<Vacature> optional = service.findVacature(vacatureId);
-		
-		
-		//Step 2 - Adjust
-		Vacature dbVacature = optional.get();
-		dbVacature.setBedrijf(newVacature.getBedrijf());
-		
-		// Step 3 - Save
-		service.saveVacature(dbVacature);
-		
-	}
+@RequestMapping(method = RequestMethod.PUT, value = "/vacature/update/{vacatureId}")
+public void update(@PathVariable long vacatureId, @RequestBody Vacature newVacature) {
+    // Step 1 - Find current vacature
+    Optional<Vacature> optional = service.findVacatureById(vacatureId); // Assuming findVacatureById returns Optional<Vacature>
+
+    if (optional.isPresent()) {
+        Vacature dbVacature = optional.get();
+        dbVacature.setPersonid(newVacature.getPersonid());
+        dbVacature.setBedrijf(newVacature.getBedrijf());
+        dbVacature.setLocatie(newVacature.getLocatie());
+        dbVacature.setOmschrijving(newVacature.getOmschrijving());
+        dbVacature.setUitstroomrichting(newVacature.getUitstroomrichting());
+        dbVacature.setFunctie(newVacature.getFunctie());
+
+        // Step 2 - Save the updated vacature
+        service.saveVacature(dbVacature);
+    }
+}
+
 	
-	@RequestMapping(method = RequestMethod.DELETE, value = "vacature/delete/{vacatureId}")
-	public void delete(@PathVariable long vacatureId) {
+@RequestMapping(method = RequestMethod.DELETE, value = "vacature/delete/{vacatureId}")
+public void delete(@PathVariable long vacatureId) {
 		service.deleteVacature(vacatureId);
 	}
 	
 
-	@RequestMapping(method = RequestMethod.POST, value = "vacature/create")
-	public void maakAan(@RequestBody Vacature vacature) {
+@RequestMapping(method = RequestMethod.POST, value = "vacature/create")
+public void maakAan(@RequestBody Vacature vacature) {
 		System.out.println("Het naam van de bedrijf is "  + vacature.getBedrijf());
 		service.saveVacature(vacature);
 		
 	}
 	
-	@RequestMapping("vacature/all")
-	public Iterable<Vacature> all() {
+@RequestMapping("vacature/all")
+public Iterable<Vacature> all() {
 		return service.vindAlleVacatures();
 	}
 	

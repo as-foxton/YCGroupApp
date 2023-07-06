@@ -2,6 +2,8 @@ package nl.yc2306.recruitmentApp;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class CurriculumVitae {
     @Id
@@ -17,6 +19,8 @@ public class CurriculumVitae {
     private String Omschrijving;
     @Column(length = 500, nullable = false)
     private String werkHistorie;
+    @OneToMany
+    private List<Feedback> feedbackList;
 
     public long getId() {
         return id;
@@ -64,5 +68,17 @@ public class CurriculumVitae {
 
     public void setWerkHistorie(String werkHistorie) {
         this.werkHistorie = werkHistorie;
+    }
+
+    public List<Feedback> getFeedbackList() {
+        return feedbackList;
+    }
+
+    public void setFeedbackList(List<Feedback> feedbackList) {
+        this.feedbackList = feedbackList;
+    }
+
+    public void addFeedback(Feedback newFeedback){
+        this.feedbackList.add(newFeedback);
     }
 }

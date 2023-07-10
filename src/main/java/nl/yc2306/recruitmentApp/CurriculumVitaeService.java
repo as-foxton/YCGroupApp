@@ -8,6 +8,9 @@ import java.util.Optional;
 public class CurriculumVitaeService {
         @Autowired
         private ICurriculumVitaeRepository curriculumVitaeRepository;
+        
+        @Autowired
+        private IAccountRepository accountRepository;
 
         public Iterable<CurriculumVitae> getAll(){
                 return curriculumVitaeRepository.findAll();
@@ -18,7 +21,10 @@ public class CurriculumVitaeService {
         }
 
         public void Save(CurriculumVitae cv){
-                curriculumVitaeRepository.save(cv);
+        	Account user = accountRepository.findById(cv.getPersoon().getPersoons_nr()).get();
+        	cv.setPersoon(user);
+            curriculumVitaeRepository.save(cv);
+            
         }
 
         public void delete(long id){

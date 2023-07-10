@@ -12,7 +12,7 @@ public class Feedback {
 	public int vacature_nr;
 	public int persoon_nr;
 	public String mening;
-	public String aangenomen;
+	public boolean aangenomen;
 	
 
 	@Id
@@ -49,11 +49,11 @@ public class Feedback {
 		this.mening = mening;
 	}
 	
-	public String getAangenomen() {
+	public boolean getAangenomen() {
 		return aangenomen;
 	}
 	
-	public void setAangenomen(String aangenomen) {
+	public void setAangenomen(boolean aangenomen) {
 		this.aangenomen = aangenomen;
 	}
 

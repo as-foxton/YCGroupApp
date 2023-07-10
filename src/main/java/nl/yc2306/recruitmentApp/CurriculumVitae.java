@@ -8,9 +8,7 @@ import java.util.List;
 public class CurriculumVitae {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Column(nullable = false)
-    private long personId;
+    private long id;    
     @Column(length = 30, nullable = false)
     private String uitstroomRichting;
     @Column(length = 30, nullable = false)
@@ -21,21 +19,23 @@ public class CurriculumVitae {
     private String werkHistorie;
     @OneToMany
     private List<Feedback> feedbackList;
+    @OneToOne
+    private Account persoon;
 
-    public long getId() {
+    public Account getPersoon() {
+		return persoon;
+	}
+
+	public void setPersoon(Account persoon) {
+		this.persoon = persoon;
+	}
+
+	public long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(long personId) {
-        this.personId = personId;
     }
 
     public String getUitstroomRichting() {

@@ -5,7 +5,6 @@ bin/**
 .mvn/**
 HELP.md
 target/
-application.properties
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

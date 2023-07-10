@@ -1,68 +1,40 @@
 package nl.yc2306.recruitmentApp;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Feedback {
-	public long feedback_nr;
-	public int cv_nr;
-	public int vacature_nr;
-	public int persoon_nr;
-	public String mening;
-	public boolean aangenomen;
-	
-
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public long getfeedback_nr() {
-		return feedback_nr;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	@Column(nullable = false, length = 500)
+	private String mening;
+	@ManyToOne
+	private Account account;
+
+	public long getId() {
+		return id;
 	}
-	
-	public void setfeedback_nr(long feedback_nr) {
-		this.feedback_nr = feedback_nr;
+
+	public void setId(long id) {
+		this.id = id;
 	}
-	
-	public int getCvNr() {
-		return cv_nr;
-	}
-	
-	public void setCvNr(int cv_nr) {
-		this.cv_nr = cv_nr;
-	}
-	
-	public int getPersoonNr() {
-		return persoon_nr;
-	}
-	
-	public void setPersoonNr(int persoon_nr) {
-		this.persoon_nr = persoon_nr;
-	}
-	
+
 	public String getMening() {
 		return mening;
 	}
-	
+
 	public void setMening(String mening) {
 		this.mening = mening;
 	}
-	
-	public boolean getAangenomen() {
-		return aangenomen;
-	}
-	
-	public void setAangenomen(boolean aangenomen) {
-		this.aangenomen = aangenomen;
+
+
+	public Account getAccount() {
+		return account;
 	}
 
-	public int getVacature_nr() {
-		return vacature_nr;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
-	public void setVacature_nr(int vacature_nr) {
-		this.vacature_nr = vacature_nr;
-	}
-	
 }

@@ -7,14 +7,14 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Feedback {
-	//public int vacature Nr;		// Bespreken om deze aanpassing in het diagram te plaatsen
 	public long feedback_nr;
 	public int cv_nr;
+	public int vacature_nr;
 	public int persoon_nr;
 	public String mening;
-	public String aangenomen;
+	public boolean aangenomen;
 	
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public long getfeedback_nr() {
@@ -49,20 +49,20 @@ public class Feedback {
 		this.mening = mening;
 	}
 	
-	public String getAangenomen() {
+	public boolean getAangenomen() {
 		return aangenomen;
 	}
 	
-	public void setAangenomen(String aangenomen) {
+	public void setAangenomen(boolean aangenomen) {
 		this.aangenomen = aangenomen;
 	}
-}
 
-//"Feedback":
-//{
-//	"feedback_nr": ,
-//	"cv_nr": ,
-//	"persoons_nr": ,
-//	"mening": "",
-//	"aangenomen": "",
-//}
+	public int getVacature_nr() {
+		return vacature_nr;
+	}
+
+	public void setVacature_nr(int vacature_nr) {
+		this.vacature_nr = vacature_nr;
+	}
+	
+}

@@ -18,12 +18,14 @@ public class Account {
 	private String rol;
 	@Column (length=150, nullable=false)
 	private String email;
-	@Column (length=150, nullable=true)
+	@Column (length=150, nullable=false)
 	private String wachtwoord;
 	@Column (length=150, nullable=true)
 	private String bedrijf;
-	@Column (length=150, nullable=false)
+	@Column (length=150, nullable=true)
 	private String locatie;
+	
+	
 	public long getPersoons_nr() {
 		return persoons_nr;
 	}

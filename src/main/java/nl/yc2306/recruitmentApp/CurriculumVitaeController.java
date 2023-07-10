@@ -35,7 +35,6 @@ public class CurriculumVitaeController {
     public void update(@RequestParam long id, @RequestBody CurriculumVitae cv){
         CurriculumVitae current = curriculumVitaeService.getOne(id).get();
         current.setOmschrijving(cv.getOmschrijving());
-        current.setPersonId(cv.getPersonId());
         current.setWerkHistorie(cv.getWerkHistorie());
         current.setUitstroomRichting(cv.getUitstroomRichting());
         current.setSpecialiteit(cv.getSpecialiteit());

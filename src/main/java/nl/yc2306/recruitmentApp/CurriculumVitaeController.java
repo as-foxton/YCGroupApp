@@ -1,6 +1,7 @@
 package nl.yc2306.recruitmentApp;
 
 import nl.yc2306.recruitmentApp.DTOs.BeknoptCV;
+import nl.yc2306.recruitmentApp.DTOs.CVFilterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +22,8 @@ public class CurriculumVitaeController {
     }
 
     @RequestMapping("curriculum_vitae/all/beknopt")
-    public Iterable<BeknoptCV> getCVsBeknopt(){
-        Iterable<CurriculumVitae> cvs = curriculumVitaeService.getAll();
+    public Iterable<BeknoptCV> getCVsBeknopt(@RequestBody CVFilterRequest filterparams){
+        Iterable<CurriculumVitae> cvs = curriculumVitaeService.getFiltered(filterparams);
         List<BeknoptCV> minimalCvs = new ArrayList<BeknoptCV>();
         for (CurriculumVitae cv: cvs) {
             BeknoptCV bcv = new BeknoptCV();

@@ -1,8 +1,12 @@
 package nl.yc2306.recruitmentApp;
 
+import nl.yc2306.recruitmentApp.DTOs.BeknoptCV;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -14,6 +18,21 @@ public class CurriculumVitaeController {
     @RequestMapping("curriculum_vitae/all")
     public Iterable<CurriculumVitae> getCVs(){
         return curriculumVitaeService.getAll();
+    }
+
+    @RequestMapping("curriculum_vitae/all/beknopt")
+    public Iterable<BeknoptCV> getCVsBeknopt(){
+        Iterable<CurriculumVitae> cvs = curriculumVitaeService.getAll();
+        List<BeknoptCV> minimalCvs = new ArrayList<BeknoptCV>();
+        for (CurriculumVitae cv: cvs) {
+            BeknoptCV bcv = new BeknoptCV();
+            bcv.setId(cv.getId());
+            bcv.setNaam(cv.getPersoon().getNaam());
+            bcv.setLocatie(cv.getPersoon().getLocatie());
+            bcv.setUitstroomRichting(cv.getUitstroomRichting());
+            minimalCvs.add(bcv);
+        }
+        return minimalCvs;
     }
 
     @RequestMapping("curriculum_vitae/find")

@@ -55,10 +55,8 @@ public class FeedbackController {
 		}
 		
 		Feedback dbFeedback = optional.get();
-		newFeedback.setPersoonNr(newFeedback.getPersoonNr());
-		newFeedback.setCvNr(newFeedback.getCvNr());
+		newFeedback.setId(newFeedback.getId());
 		newFeedback.setMening(newFeedback.getMening());
-		newFeedback.setAangenomen(newFeedback.getAangenomen());
 				
 		service.Save(dbFeedback);
 	}

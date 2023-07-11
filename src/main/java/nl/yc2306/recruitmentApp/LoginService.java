@@ -11,7 +11,7 @@ public class LoginService {
     public long login(String email, String password){
         Account user = accounts.findByEmail(email);
         if(user!= null && user.getWachtwoord().equals(password)){
-            return user.getPersoons_nr();
+            return user.getId();
         }
         return -1;
     }

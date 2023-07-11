@@ -27,7 +27,6 @@ public class FeedbackService {
 	public Feedback SaveToCV(Feedback feedback, long cvId){
 		Feedback withId = Save(feedback);
 		CurriculumVitae cv = cvService.getOne(cvId).get();
-		cv.addFeedback(withId);
 		cvService.Save(cv);
 		return  withId;
 	}

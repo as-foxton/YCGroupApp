@@ -28,11 +28,11 @@ public void update(@PathVariable long vacatureId, @RequestBody Vacature newVacat
 
     if (optional.isPresent()) {
         Vacature dbVacature = optional.get();
-        dbVacature.setPersonid(newVacature.getPersonid());
+        dbVacature.setAccount(newVacature.getAccount());
         dbVacature.setBedrijf(newVacature.getBedrijf());
         dbVacature.setLocatie(newVacature.getLocatie());
         dbVacature.setOmschrijving(newVacature.getOmschrijving());
-        dbVacature.setUitstroomrichting(newVacature.getUitstroomrichting());
+        dbVacature.setUitstroomRichting(newVacature.getUitstroomRichting());
         dbVacature.setFunctie(newVacature.getFunctie());
 
         // Step 2 - Save the updated vacature

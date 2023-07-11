@@ -1,20 +1,13 @@
 package nl.yc2306.recruitmentApp;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Vacature {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long vacatureId;
-	
-	@Column(nullable = false)
-	private int personid;
+	private long id;
 	
 	@Column(length = 100, nullable = false)
 	private String bedrijf;
@@ -26,25 +19,19 @@ public class Vacature {
 	private String omschrijving;
 		
 	@Column(length = 100, nullable = false)
-	private String uitstroomrichting;
+	private String uitstroomRichting;
 	
 	@Column(length = 200, nullable = false)
 	private String functie;
+	@ManyToOne
+	private Account account;
 
-	public long getVacatureId() {
-		return vacatureId;
+	public long getId() {
+		return id;
 	}
 
-	public void setVacatureId(long vactureId) {
-		this.vacatureId = vactureId;
-	}
-
-	public int getPersonid() {
-		return personid;
-	}
-
-	public void setPersonid(int personid) {
-		this.personid = personid;
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getBedrijf() {
@@ -71,12 +58,12 @@ public class Vacature {
 		this.omschrijving = omschrijving;
 	}
 
-	public String getUitstroomrichting() {
-		return uitstroomrichting;
+	public String getUitstroomRichting() {
+		return uitstroomRichting;
 	}
 
-	public void setUitstroomrichting(String uitstroomrichting) {
-		this.uitstroomrichting = uitstroomrichting;
+	public void setUitstroomRichting(String uitstroomRichting) {
+		this.uitstroomRichting = uitstroomRichting;
 	}
 
 	public String getFunctie() {
@@ -86,6 +73,13 @@ public class Vacature {
 	public void setFunctie(String functie) {
 		this.functie = functie;
 	}
-	
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
 }
 	

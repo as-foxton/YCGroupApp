@@ -14,11 +14,9 @@ public class CurriculumVitae {
     @Column(length = 30, nullable = false)
     private String specialiteit;
     @Column(length = 500, nullable = false)
-    private String Omschrijving;
+    private String omschrijving;
     @Column(length = 500, nullable = false)
     private String werkHistorie;
-    @OneToMany
-    private List<Feedback> feedbackList;
     @OneToOne
     private Account persoon;
 
@@ -55,11 +53,11 @@ public class CurriculumVitae {
     }
 
     public String getOmschrijving() {
-        return Omschrijving;
+        return omschrijving;
     }
 
     public void setOmschrijving(String omschrijving) {
-        Omschrijving = omschrijving;
+        omschrijving = omschrijving;
     }
 
     public String getWerkHistorie() {
@@ -68,17 +66,5 @@ public class CurriculumVitae {
 
     public void setWerkHistorie(String werkHistorie) {
         this.werkHistorie = werkHistorie;
-    }
-
-    public List<Feedback> getFeedbackList() {
-        return feedbackList;
-    }
-
-    public void setFeedbackList(List<Feedback> feedbackList) {
-        this.feedbackList = feedbackList;
-    }
-
-    public void addFeedback(Feedback newFeedback){
-        this.feedbackList.add(newFeedback);
     }
 }

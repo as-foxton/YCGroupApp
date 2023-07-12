@@ -1,8 +1,13 @@
 package nl.yc2306.recruitmentApp;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import nl.yc2306.recruitmentApp.DTOs.BeknoptCV;
+import nl.yc2306.recruitmentApp.DTOs.BeknopteVacature;
+import nl.yc2306.recruitmentApp.DTOs.FilterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.web.JsonPath;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -58,5 +63,20 @@ public void maakAan(@RequestBody Vacature vacature) {
 public Iterable<Vacature> all() {
 		return service.vindAlleVacatures();
 	}
+
+    @RequestMapping("vacatures/beknopt")
+    public Iterable<BeknopteVacature> getCVsBeknopt(@RequestBody FilterRequest filterparams){
+        Iterable<Vacature> vacatures = service.getFiltered(filterparams);
+        List<BeknopteVacature> minimalvacatures = new ArrayList<BeknopteVacature>();
+        for (Vacature vacature: vacatures) {
+            BeknopteVacature bkv = new BeknopteVacature();
+            bkv.setId(vacature.getId());
+            bkv.setBedrijf(vacature.getBedrijf());
+            bkv.setLocatie(vacature.getLocatie());
+            bkv.setUitstroomRichting(vacature.getUitstroomRichting());
+            minimalvacatures.add(bkv);
+        }
+        return minimalvacatures;
+    }
 	
 }

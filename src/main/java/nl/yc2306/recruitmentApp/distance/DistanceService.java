@@ -1,7 +1,10 @@
 package nl.yc2306.recruitmentApp.distance;
 
+import nl.yc2306.recruitmentApp.CurriculumVitae;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 public class DistanceService {
@@ -27,5 +30,20 @@ public class DistanceService {
         double r = 6371;
 
         return(c * r);
+    }
+
+    public Iterable<? extends HasLocatie> filterDistance(Iterable<? extends HasLocatie> cvs, String plaats, int maxAfstand){
+        ArrayList<HasLocatie> response = new ArrayList<>();
+        for(HasLocatie place :cvs){
+            try {
+                double afstand = calculateDistance(plaats, place.getLocatie());
+                if(afstand <= maxAfstand)
+                    response.add(place);
+            }
+            catch (LocatieNotFoundException e){
+                System.out.printf("een van de plaatsen is niet gevonden: %s, %s",plaats,place.getLocatie());
+            }
+        }
+        return response;
     }
 }

@@ -1,6 +1,6 @@
 package nl.yc2306.recruitmentApp.DTOs;
 
-public class CVFilterRequest {
+public class FilterRequest {
     private String plaats;
     private int maxAfstand;
     private String uitstroomRichting;

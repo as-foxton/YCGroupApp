@@ -1,6 +1,7 @@
 package nl.yc2306.recruitmentApp;
-import nl.yc2306.recruitmentApp.DTOs.CVFilterRequest;
+import nl.yc2306.recruitmentApp.DTOs.FilterRequest;
 import nl.yc2306.recruitmentApp.distance.DistanceService;
+import nl.yc2306.recruitmentApp.distance.HasLocatie;
 import nl.yc2306.recruitmentApp.distance.LocatieNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,32 +24,19 @@ public class CurriculumVitaeService {
                 return curriculumVitaeRepository.findAll();
         }
 
-        public Iterable<CurriculumVitae> getFiltered(CVFilterRequest filterparams){
+        public Iterable<CurriculumVitae> getFiltered(FilterRequest filterparams){
                 Iterable<CurriculumVitae> cvs;
                 if(!filterparams.getUitstroomRichting().equals("alle"))
                         cvs = curriculumVitaeRepository.findAllByUitstroomRichting(filterparams.getUitstroomRichting());
                 else
                         cvs = getAll();
                 if(!filterparams.getPlaats().equals("")){
-                        return filterDistance(cvs, filterparams.getPlaats(), filterparams.getMaxAfstand());
+                        return (Iterable<CurriculumVitae>)distanceService.filterDistance(cvs, filterparams.getPlaats(), filterparams.getMaxAfstand());
                 }
                 return cvs;
         }
 
-        private Iterable<CurriculumVitae> filterDistance(Iterable<CurriculumVitae> cvs, String plaats, int maxAfstand){
-                ArrayList<CurriculumVitae> response = new ArrayList<>();
-                for(CurriculumVitae cv :cvs){
-                        try {
-                                double afstand = distanceService.calculateDistance(plaats, cv.getPersoon().getLocatie());
-                                if(afstand <= maxAfstand)
-                                        response.add(cv);
-                        }
-                        catch (LocatieNotFoundException e){
-                                System.out.printf("een van de plaatsen is niet gevonden: %s, %s",plaats,cv.getPersoon().getLocatie());
-                        }
-                }
-                return response;
-        }
+
 
         public Optional<CurriculumVitae> getOne(long id){
                 return curriculumVitaeRepository.findById(id);

@@ -21,18 +21,18 @@ public class VacatureController {
 private VacatureService service;
 
 	
-@RequestMapping(method = RequestMethod.PUT, value = "/vacature/update/{vacatureId}")
-public void update(@PathVariable long vacatureId, @RequestBody Vacature newVacature) {
+@RequestMapping(method = RequestMethod.PUT, value = "/vacature/update/{id}")
+public void update(@PathVariable long id, @RequestBody Vacature newVacature) {
     // Step 1 - Find current vacature
-    Optional<Vacature> optional = service.findVacatureById(vacatureId); // Assuming findVacatureById returns Optional<Vacature>
+    Optional<Vacature> optional = service.findVacatureById(id); // Assuming findVacatureById returns Optional<Vacature>
 
     if (optional.isPresent()) {
         Vacature dbVacature = optional.get();
-        dbVacature.setPersonid(newVacature.getPersonid());
+        dbVacature.setAccount(newVacature.getAccount());
         dbVacature.setBedrijf(newVacature.getBedrijf());
         dbVacature.setLocatie(newVacature.getLocatie());
         dbVacature.setOmschrijving(newVacature.getOmschrijving());
-        dbVacature.setUitstroomrichting(newVacature.getUitstroomrichting());
+        dbVacature.setUitstroomRichting(newVacature.getUitstroomRichting());
         dbVacature.setFunctie(newVacature.getFunctie());
 
         // Step 2 - Save the updated vacature
@@ -41,9 +41,9 @@ public void update(@PathVariable long vacatureId, @RequestBody Vacature newVacat
 }
 
 	
-@RequestMapping(method = RequestMethod.DELETE, value = "vacature/delete/{vacatureId}")
-public void delete(@PathVariable long vacatureId) {
-		service.deleteVacature(vacatureId);
+@RequestMapping(method = RequestMethod.DELETE, value = "vacature/delete/{id}")
+public void delete(@PathVariable long id) {
+		service.deleteVacature(id);
 	}
 	
 

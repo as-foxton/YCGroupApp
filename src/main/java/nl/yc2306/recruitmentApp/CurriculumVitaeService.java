@@ -21,7 +21,7 @@ public class CurriculumVitaeService {
         }
 
         public void Save(CurriculumVitae cv){
-        	Account user = accountRepository.findById(cv.getPersoon().getPersoons_nr()).get();
+        	Account user = accountRepository.findById(cv.getPersoon().getId()).get();
         	cv.setPersoon(user);
             curriculumVitaeRepository.save(cv);
             

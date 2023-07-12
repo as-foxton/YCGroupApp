@@ -12,6 +12,9 @@ public class VacatureService {
 	@Autowired
 	private IVacatureRepository repository;
 	
+	@Autowired
+    private IAccountRepository accountRepository;
+	
 	
 	public Iterable<Vacature> vindAlleVacatures() {
 		return repository.findAll();		
@@ -22,8 +25,12 @@ public class VacatureService {
 	}
 	
 	public void saveVacature(Vacature vacature) {
+		System.out.println(vacature + "TEST");
 	    // Use your data access object or repository to save the vacature to the database
-	    repository.save(vacature);
+	    Account user = accountRepository.findById(vacature.getAccount().getId()).get();
+    	vacature.setAccount(user);
+        
+        repository.save(vacature);
 	}
 
 

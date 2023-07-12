@@ -1,9 +1,10 @@
 package nl.yc2306.recruitmentApp;
 
 import jakarta.persistence.*;
+import nl.yc2306.recruitmentApp.distance.HasLocatie;
 
 @Entity
-public class Vacature {
+public class Vacature implements HasLocatie {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

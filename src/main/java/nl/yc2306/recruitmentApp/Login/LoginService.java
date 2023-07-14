@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -16,6 +17,8 @@ public class LoginService {
     private int expirationTime;
     @Autowired
     private IAccountRepository accounts;
+    @Autowired
+    private IPermissionRepository permissions;
 
     @Autowired
     private TokenService tokenService;
@@ -44,6 +47,24 @@ public class LoginService {
             return null;
         }
         return at.getUser();
+    }
+
+    public boolean isAuthorised(String token, String page) {
+        Account user = findLoggedinUser(token);
+        if(user == null)
+            return false;
+        List<Permission> allRoles = permissions.findAllByPage(page);
+        if(allRoles.stream().anyMatch(perm -> user.getRol().equals(perm.getRol())))
+            return true;
+        return false;
+    }
+
+    public boolean isAuthorised(String token, String[] pages){
+        for (String page:pages) {
+            if(isAuthorised(token, page))
+                return true;
+        }
+        return false;
     }
 
     public void logout(String token){

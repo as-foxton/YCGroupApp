@@ -22,11 +22,16 @@ public class VacatureService {
 	
 	
 	public Iterable<Vacature> vindAlleVacatures() {
-		return repository.findAll();		
+		return repository.findAll();
 	}
-	
+			
 	public Optional<Vacature> findVacatureById(long id) {
 		return repository.findById(id);
+	}
+	
+	public Iterable<Vacature> findVacaturesByAccountId(long account) {
+        // Assuming you have a "accountId" field in the "Vacature" entity representing the account ID
+        return repository.findByAccount_Id(account);
 	}
 	
 	public void saveVacature(Vacature vacature) {
@@ -54,4 +59,5 @@ public class VacatureService {
 		}
 		return vacatures;
 	}
+		
 }

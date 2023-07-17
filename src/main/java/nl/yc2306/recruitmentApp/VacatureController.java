@@ -26,7 +26,7 @@ public class VacatureController {
 private VacatureService service;
 
 	
-@RequestMapping(method = RequestMethod.PUT, value = "/vacature/update/{id}")
+@RequestMapping(method = RequestMethod.PUT, value = "vacature/update/{id}")
 public void update(@PathVariable long id, @RequestBody Vacature newVacature) {
     // Step 1 - Find current vacature
     Optional<Vacature> optional = service.findVacatureById(id); // Assuming findVacatureById returns Optional<Vacature>
@@ -64,6 +64,17 @@ public Iterable<Vacature> all() {
 		return service.vindAlleVacatures();
 	}
 
+
+@RequestMapping(method = RequestMethod.GET, value = "vacature/myVacatures/{account}")
+public Iterable<Vacature> getAccountVacatures(@PathVariable long account) {
+    // Fetch the vacancies for the specified accountId using the service method (assuming you have one)
+    Iterable<Vacature> accountVacatures = service.findVacaturesByAccountId(account);
+
+    // You may add additional logic here if needed, such as handling the case when no vacancies are found
+
+    return accountVacatures;
+}
+
     @RequestMapping("vacatures/beknopt")
     public Iterable<BeknopteVacature> getCVsBeknopt(@RequestBody FilterRequest filterparams){
         Iterable<Vacature> vacatures = service.getFiltered(filterparams);
@@ -78,5 +89,6 @@ public Iterable<Vacature> all() {
         }
         return minimalvacatures;
     }
+
 	
 }

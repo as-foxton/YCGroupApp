@@ -23,24 +23,10 @@ public class AccountController {
 		return service.vindAlleAccounts();
 	}
 	// vind bij id
-	@RequestMapping("account/{id}")
-	public AccountDto find (@PathVariable long id) {
-		Optional<Account> optional = service.vindBijId(id);
-		
-		// Check is er een account gevonden
-		if (optional.isEmpty())
-			return null;
-		
-		Account account = optional.get();
-		
-		// Account -> AccountDto
-		AccountDto accountDto = new AccountDto();
-		accountDto.setId(account.getId());
-		accountDto.setName(account.getNaam());
-		accountDto.setRole(account.getRol());
-		
-		return accountDto;
-	}
+		@RequestMapping("account/{id}")
+		public Optional<Account> find (@PathVariable long id) {
+			return service.vindBijId(id);
+		}
 	
 	// maak aan 
 	@RequestMapping(method = RequestMethod.POST, value = "account/create")

@@ -20,9 +20,6 @@ public class CurriculumVitae  implements HasLocatie {
     private String werkHistorie;
     @OneToOne
     private Account persoon;
-    
-	@OneToMany(mappedBy = "curriculumVitae")
-	private List<Aanbieding> aanbiedingen;
 
     public Account getPersoon() {
 		return persoon;

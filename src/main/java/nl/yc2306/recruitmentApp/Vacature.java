@@ -1,7 +1,5 @@
 package nl.yc2306.recruitmentApp;
 
-import java.util.List;
-
 import jakarta.persistence.*;
 import nl.yc2306.recruitmentApp.distance.HasLocatie;
 
@@ -26,12 +24,8 @@ public class Vacature implements HasLocatie {
 	
 	@Column(length = 200, nullable = false)
 	private String functie;
-
 	@ManyToOne
 	private Account account;
-	
-	@OneToMany(mappedBy = "vacature")
-	private List<Aanbieding> aanbiedingen;
 
 	public long getId() {
 		return id;

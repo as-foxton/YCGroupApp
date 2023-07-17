@@ -54,7 +54,8 @@ public class LoginService {
         if(user == null)
             return false;
         List<Permission> allRoles = permissions.findAllByPage(page);
-        if(allRoles.stream().anyMatch(perm -> user.getRol().equals(perm.getRol())))
+
+        if(allRoles.stream().anyMatch(perm -> user.getRol().toLowerCase().equals(perm.getRol().toLowerCase())))
             return true;
         return false;
     }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
@@ -29,16 +30,8 @@ public class CurriculumVitaeController {
         String[] pages = {"/showcvs.html"};
         if(!loginService.isAuthorised(AUTH_TOKEN, pages))
             return null;
-        Iterable<CurriculumVitae> cvs = curriculumVitaeService.getFiltered(filterparams);
-        List<BeknoptCV> minimalCvs = new ArrayList<BeknoptCV>();
-        for (CurriculumVitae cv: cvs) {
-            BeknoptCV bcv = new BeknoptCV();
-            bcv.setId(cv.getId());
-            bcv.setNaam(cv.getPersoon().getNaam());
-            bcv.setLocatie(cv.getPersoon().getLocatie());
-            bcv.setUitstroomRichting(cv.getUitstroomRichting());
-            minimalCvs.add(bcv);
-        }
+        List<CurriculumVitae> cvs = curriculumVitaeService.getFiltered(filterparams);
+        List<BeknoptCV> minimalCvs = cvs.stream().map(cv -> cv.getBeknopt()).toList();
         return minimalCvs;
     }
 

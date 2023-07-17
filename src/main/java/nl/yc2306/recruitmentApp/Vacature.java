@@ -88,5 +88,13 @@ public class Vacature implements HasLocatie {
 	public void setAccount(Account account) {
 		this.account = account;
 	}
+
+	public List<Aanbieding> getAanbiedingen() {
+		return aanbiedingen;
+	}
+
+	public void setAanbiedingen(List<Aanbieding> aanbiedingen) {
+		this.aanbiedingen = aanbiedingen;
+	}
 }
 	

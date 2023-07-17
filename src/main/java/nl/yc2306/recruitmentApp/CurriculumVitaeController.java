@@ -48,7 +48,12 @@ public class CurriculumVitaeController {
     }
 
     @RequestMapping(method=RequestMethod.POST, value="curriculum_vitae/add")
-    public void add(@RequestBody CurriculumVitae cv){
+    public void add(@RequestHeader String AUTH_TOKEN, @RequestBody CurriculumVitae cv){
+        String[] pages = {"/CreateCV.html"};
+        if(!loginService.isAuthorised(AUTH_TOKEN, pages))
+            return;
+        Account user = loginService.findLoggedinUser(AUTH_TOKEN);
+        cv.setPersoon(user);
         curriculumVitaeService.Save(cv);
     }
 

@@ -34,6 +34,11 @@ public class LoginController {
         return response;
     }
 
+    @RequestMapping(method= RequestMethod.GET, value="account/haspermission")
+    public boolean authorise(@RequestHeader String AUTH_TOKEN, @RequestParam String page){
+        return loginService.isAuthorised(AUTH_TOKEN, page);
+    }
+
     @RequestMapping(method= RequestMethod.GET, value="logout")
     public void logout(@RequestHeader String AUTH_TOKEN){
         loginService.logout(AUTH_TOKEN);

@@ -1,6 +1,7 @@
 package nl.yc2306.recruitmentApp;
 
 import jakarta.persistence.*;
+import nl.yc2306.recruitmentApp.DTOs.BeknoptCV;
 import nl.yc2306.recruitmentApp.distance.HasLocatie;
 
 import java.util.List;
@@ -20,6 +21,9 @@ public class CurriculumVitae  implements HasLocatie {
     private String werkHistorie;
     @OneToOne
     private Account persoon;
+    
+	@OneToMany(mappedBy = "curriculumVitae")
+	private List<Aanbieding> aanbiedingen;
 
     public Account getPersoon() {
 		return persoon;
@@ -71,5 +75,14 @@ public class CurriculumVitae  implements HasLocatie {
 
     public String getLocatie(){
         return persoon.getLocatie();
+    }
+
+    public BeknoptCV getBeknopt(){
+        BeknoptCV beknopt = new BeknoptCV();
+        beknopt.setId(id);
+        beknopt.setLocatie(getLocatie());
+        beknopt.setNaam(getPersoon().getNaam());
+        beknopt.setUitstroomRichting(uitstroomRichting);
+        return beknopt;
     }
 }

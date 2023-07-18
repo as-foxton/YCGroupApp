@@ -2,6 +2,7 @@ package nl.yc2306.recruitmentApp.DTOs;
 
 public class AanbiedingAanBedrijf {
     private long id;
+    private long cvId;
     private String naam;
     private String uitstroomRichting;
     private String locatie;
@@ -14,6 +15,14 @@ public class AanbiedingAanBedrijf {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getCvId() {
+        return cvId;
+    }
+
+    public void setCvId(long persoonId) {
+        this.cvId = persoonId;
     }
 
     public String getNaam() {

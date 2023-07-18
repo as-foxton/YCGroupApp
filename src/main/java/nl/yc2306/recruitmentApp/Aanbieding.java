@@ -81,6 +81,7 @@ public class Aanbieding {
 	public AanbiedingAanBedrijf maakAanbiedingAanBedrijf(){
 		AanbiedingAanBedrijf response = new AanbiedingAanBedrijf();
 		response.setId(id);
+		response.setCvId(curriculumVitae.getId());
 		response.setAfgewezen(afgewezen);
 		response.setUitgenodigd(uitgenodigd);
 		response.setNaam(curriculumVitae.getPersoon().getNaam());

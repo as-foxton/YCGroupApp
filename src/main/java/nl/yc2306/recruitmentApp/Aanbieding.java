@@ -24,6 +24,10 @@ public class Aanbieding {
 	
 	@Column(nullable = false)
 	private LocalDateTime createdOn;
+	@Column
+	private boolean uitgenodigd;
+	@Column
+	private boolean afgewezen;
 
 	public long getId() {
 		return id;
@@ -56,7 +60,20 @@ public class Aanbieding {
 	public void setCreatedOn(LocalDateTime createdOn) {
 		this.createdOn = createdOn;
 	}
-	
-	
-	
+
+	public boolean isUitgenodigd() {
+		return uitgenodigd;
+	}
+
+	public void setUitgenodigd(boolean uitgenodigd) {
+		this.uitgenodigd = uitgenodigd;
+	}
+
+	public boolean isAfgewezen() {
+		return afgewezen;
+	}
+
+	public void setAfgewezen(boolean afgewezen) {
+		this.afgewezen = afgewezen;
+	}
 }

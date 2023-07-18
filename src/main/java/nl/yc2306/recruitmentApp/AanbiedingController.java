@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(maxAge = 3600)
 public class AanbiedingController {
 	
 	@Autowired
@@ -24,10 +25,11 @@ public class AanbiedingController {
 
 	@GetMapping("/aanbieding/{vacatureId}")
 	public Iterable<BeknoptCV> aanbiedingenPerVacature(@RequestHeader String AUTH_TOKEN, @PathVariable long vacatureId){
-		String[] pages = {"/temp.html"};
+		String[] pages = {"/mijnaanbiedingen.html"};
 		if(!loginService.isAuthorised(AUTH_TOKEN, pages))
 			return null;
-		List<CurriculumVitae> cvs = aanbiedingService.getAanbiedingenVanVacature(vacatureId);
-		return cvs.stream().map(cv -> cv.getBeknopt()).toList();
+		Account user = loginService.findLoggedinUser(AUTH_TOKEN);
+		List<CurriculumVitae> cvs = aanbiedingService.getAanbiedingenVanVacature(vacatureId,user);
+		return cvs.stream().map(cv -> cv.maakBeknopt()).toList();
 	}
 }

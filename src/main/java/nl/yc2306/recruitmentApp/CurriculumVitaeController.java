@@ -6,10 +6,8 @@ import nl.yc2306.recruitmentApp.Login.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
@@ -31,12 +29,15 @@ public class CurriculumVitaeController {
         if(!loginService.isAuthorised(AUTH_TOKEN, pages))
             return null;
         List<CurriculumVitae> cvs = curriculumVitaeService.getFiltered(filterparams);
-        List<BeknoptCV> minimalCvs = cvs.stream().map(cv -> cv.getBeknopt()).toList();
+        List<BeknoptCV> minimalCvs = cvs.stream().map(cv -> cv.maakBeknopt()).toList();
         return minimalCvs;
     }
 
     @RequestMapping("curriculum_vitae/find")
-    public Optional<CurriculumVitae> getSpecific(@RequestParam long id){
+    public Optional<CurriculumVitae> getSpecific(@RequestHeader String AUTH_TOKEN, @RequestParam long id){
+        String[] pages = {"/mijnaanbiedingen.html"};
+        if(!loginService.isAuthorised(AUTH_TOKEN, pages))
+            return null;
         return curriculumVitaeService.getOne(id);
     }
 

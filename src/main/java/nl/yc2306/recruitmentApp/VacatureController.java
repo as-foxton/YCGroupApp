@@ -5,14 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import nl.yc2306.recruitmentApp.DTOs.AccountGegevens;
 import nl.yc2306.recruitmentApp.DTOs.BeknoptCV;
 import nl.yc2306.recruitmentApp.DTOs.BeknopteVacature;
 import nl.yc2306.recruitmentApp.DTOs.FilterRequest;
+import nl.yc2306.recruitmentApp.Login.LoginService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.web.JsonPath;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +29,8 @@ public class VacatureController {
 @Autowired
 private VacatureService service;
 
+@Autowired
+private LoginService loginService;
 	
 @RequestMapping(method = RequestMethod.PUT, value = "vacature/update/{id}")
 public void update(@PathVariable long id, @RequestBody Vacature newVacature) {
@@ -66,9 +72,10 @@ public Iterable<Vacature> all() {
 
 
 @RequestMapping(method = RequestMethod.GET, value = "vacature/myVacatures/{account}")
-public Iterable<Vacature> getAccountVacatures(@PathVariable long account) {
+public Iterable<Vacature> getAccountVacatures(@RequestHeader String AUTH_TOKEN) {
     // Fetch the vacancies for the specified accountId using the service method (assuming you have one)
-    Iterable<Vacature> accountVacatures = service.findVacaturesByAccountId(account);
+	Account account = loginService.findLoggedinUser(AUTH_TOKEN);
+    Iterable<Vacature> accountVacatures = service.findVacaturesByAccountId(account.getId());
 
     // You may add additional logic here if needed, such as handling the case when no vacancies are found
 
@@ -90,5 +97,6 @@ public Iterable<Vacature> getAccountVacatures(@PathVariable long account) {
         return minimalvacatures;
     }
 
+   
 	
 }

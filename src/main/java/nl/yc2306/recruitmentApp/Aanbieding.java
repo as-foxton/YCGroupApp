@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import nl.yc2306.recruitmentApp.DTOs.AanbiedingAanBedrijf;
 
 @Entity
 public class Aanbieding {
@@ -75,5 +76,16 @@ public class Aanbieding {
 
 	public void setAfgewezen(boolean afgewezen) {
 		this.afgewezen = afgewezen;
+	}
+
+	public AanbiedingAanBedrijf maakAanbiedingAanBedrijf(){
+		AanbiedingAanBedrijf response = new AanbiedingAanBedrijf();
+		response.setId(id);
+		response.setAfgewezen(afgewezen);
+		response.setUitgenodigd(uitgenodigd);
+		response.setNaam(curriculumVitae.getPersoon().getNaam());
+		response.setLocatie(curriculumVitae.getLocatie());
+		response.setUitstroomRichting(curriculumVitae.getUitstroomRichting());
+		return response;
 	}
 }

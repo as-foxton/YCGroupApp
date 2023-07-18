@@ -23,23 +23,21 @@ public class AanbiedingService {
 		return newAanbieding;
 	}
 
-	public List<CurriculumVitae> getAanbiedingenVanVacature(long id, Account user){
+	public List<Aanbieding> getAanbiedingenVanVacature(long id, Account user){
 		Vacature vacature = vacatureService.findVacatureById(id).get();;
 		if(!vacature.getAccount().equals(user))
 			return new ArrayList<>();
 
 		return vacature.getAanbiedingen().stream()
-				.filter(aanbieding -> !(aanbieding.isUitgenodigd() || aanbieding.isAfgewezen()))
-				.map(aanbieding -> aanbieding.getCurriculumVitae()).toList();
+				.filter(aanbieding -> !(aanbieding.isUitgenodigd() || aanbieding.isAfgewezen())).toList();
 	}
 
-	public List<CurriculumVitae> getUitgenodigdenVanVacature(long id, Account user){
+	public List<Aanbieding> getUitgenodigdenVanVacature(long id, Account user){
 		Vacature vacature = vacatureService.findVacatureById(id).get();;
 		if(!vacature.getAccount().equals(user))
 			return new ArrayList<>();
 
 		return vacature.getAanbiedingen().stream()
-				.filter(aanbieding -> aanbieding.isUitgenodigd() && !aanbieding.isAfgewezen())
-				.map(aanbieding -> aanbieding.getCurriculumVitae()).toList();
+				.filter(aanbieding -> aanbieding.isUitgenodigd() && !aanbieding.isAfgewezen()).toList();
 	}
 }

@@ -1,6 +1,6 @@
 package nl.yc2306.recruitmentApp;
 
-import nl.yc2306.recruitmentApp.DTOs.BeknoptCV;
+import nl.yc2306.recruitmentApp.DTOs.AanbiedingAanBedrijf;
 import nl.yc2306.recruitmentApp.Login.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,22 +24,22 @@ public class AanbiedingController {
 	}
 
 	@GetMapping("/aanbieding/nieuw/{vacatureId}")
-	public Iterable<BeknoptCV> nieuweAanbiedingenPerVacature(@RequestHeader String AUTH_TOKEN, @PathVariable long vacatureId){
+	public Iterable<AanbiedingAanBedrijf> nieuweAanbiedingenPerVacature(@RequestHeader String AUTH_TOKEN, @PathVariable long vacatureId){
 		String[] pages = {"/mijnaanbiedingen.html"};
 		if(!loginService.isAuthorised(AUTH_TOKEN, pages))
 			return null;
 		Account user = loginService.findLoggedinUser(AUTH_TOKEN);
-		List<CurriculumVitae> cvs = aanbiedingService.getAanbiedingenVanVacature(vacatureId,user);
-		return cvs.stream().map(cv -> cv.maakBeknopt()).toList();
+		List<Aanbieding> aanbiedingen = aanbiedingService.getAanbiedingenVanVacature(vacatureId,user);
+		return aanbiedingen.stream().map(aanbieding -> aanbieding.maakAanbiedingAanBedrijf()).toList();
 	}
 
 	@GetMapping("/aanbieding/uitgenodigd/{vacatureId}")
-	public Iterable<BeknoptCV> uitgenodigdeKandidaten(@RequestHeader String AUTH_TOKEN, @PathVariable long vacatureId){
+	public Iterable<AanbiedingAanBedrijf> uitgenodigdeKandidaten(@RequestHeader String AUTH_TOKEN, @PathVariable long vacatureId){
 		String[] pages = {"/mijnaanbiedingen.html"};
 		if(!loginService.isAuthorised(AUTH_TOKEN, pages))
 			return null;
 		Account user = loginService.findLoggedinUser(AUTH_TOKEN);
-		List<CurriculumVitae> cvs = aanbiedingService.getUitgenodigdenVanVacature(vacatureId,user);
-		return cvs.stream().map(cv -> cv.maakBeknopt()).toList();
+		List<Aanbieding> aanbiedingen = aanbiedingService.getUitgenodigdenVanVacature(vacatureId,user);
+		return aanbiedingen.stream().map(aanbieding -> aanbieding.maakAanbiedingAanBedrijf()).toList();
 	}
 }

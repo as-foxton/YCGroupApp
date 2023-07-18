@@ -2,6 +2,7 @@ package nl.yc2306.recruitmentApp;
 
 import nl.yc2306.recruitmentApp.DTOs.BeknoptCV;
 import nl.yc2306.recruitmentApp.DTOs.FilterRequest;
+import nl.yc2306.recruitmentApp.DTOs.VolledigCVMetNaamEnLocatie;
 import nl.yc2306.recruitmentApp.Login.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,11 +35,22 @@ public class CurriculumVitaeController {
     }
 
     @RequestMapping("curriculum_vitae/find")
-    public Optional<CurriculumVitae> getSpecific(@RequestHeader String AUTH_TOKEN, @RequestParam long id){
+    public VolledigCVMetNaamEnLocatie getSpecific(@RequestHeader String AUTH_TOKEN, @RequestParam long id){
         String[] pages = {"/mijnaanbiedingen.html"};
         if(!loginService.isAuthorised(AUTH_TOKEN, pages))
             return null;
-        return curriculumVitaeService.getOne(id);
+        Optional<CurriculumVitae> result = curriculumVitaeService.getOne(id);
+        if(result.isEmpty())
+            return null;
+        CurriculumVitae cv = result.get();
+        VolledigCVMetNaamEnLocatie response = new VolledigCVMetNaamEnLocatie();
+        response.setLocatie(cv.getLocatie());
+        response.setNaam(cv.getPersoon().getNaam());
+        response.setOmschrijving(cv.getOmschrijving());
+        response.setSpecialiteit(cv.getSpecialiteit());
+        response.setWerkHistorie(cv.getWerkHistorie());
+        response.setUitstroomRichting(cv.getUitstroomRichting());
+        return response;
     }
 
     @RequestMapping(method=RequestMethod.POST, value="curriculum_vitae/add")

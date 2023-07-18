@@ -32,4 +32,14 @@ public class AanbiedingService {
 				.filter(aanbieding -> !(aanbieding.isUitgenodigd() || aanbieding.isAfgewezen()))
 				.map(aanbieding -> aanbieding.getCurriculumVitae()).toList();
 	}
+
+	public List<CurriculumVitae> getUitgenodigdenVanVacature(long id, Account user){
+		Vacature vacature = vacatureService.findVacatureById(id).get();;
+		if(!vacature.getAccount().equals(user))
+			return new ArrayList<>();
+
+		return vacature.getAanbiedingen().stream()
+				.filter(aanbieding -> aanbieding.isUitgenodigd() && !aanbieding.isAfgewezen())
+				.map(aanbieding -> aanbieding.getCurriculumVitae()).toList();
+	}
 }

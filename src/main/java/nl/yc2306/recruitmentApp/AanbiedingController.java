@@ -23,13 +23,23 @@ public class AanbiedingController {
 		return newAanbieding;
 	}
 
-	@GetMapping("/aanbieding/{vacatureId}")
-	public Iterable<BeknoptCV> aanbiedingenPerVacature(@RequestHeader String AUTH_TOKEN, @PathVariable long vacatureId){
+	@GetMapping("/aanbieding/nieuw/{vacatureId}")
+	public Iterable<BeknoptCV> nieuweAanbiedingenPerVacature(@RequestHeader String AUTH_TOKEN, @PathVariable long vacatureId){
 		String[] pages = {"/mijnaanbiedingen.html"};
 		if(!loginService.isAuthorised(AUTH_TOKEN, pages))
 			return null;
 		Account user = loginService.findLoggedinUser(AUTH_TOKEN);
 		List<CurriculumVitae> cvs = aanbiedingService.getAanbiedingenVanVacature(vacatureId,user);
+		return cvs.stream().map(cv -> cv.maakBeknopt()).toList();
+	}
+
+	@GetMapping("/aanbieding/uitgenodigd/{vacatureId}")
+	public Iterable<BeknoptCV> uitgenodigdeKandidaten(@RequestHeader String AUTH_TOKEN, @PathVariable long vacatureId){
+		String[] pages = {"/mijnaanbiedingen.html"};
+		if(!loginService.isAuthorised(AUTH_TOKEN, pages))
+			return null;
+		Account user = loginService.findLoggedinUser(AUTH_TOKEN);
+		List<CurriculumVitae> cvs = aanbiedingService.getUitgenodigdenVanVacature(vacatureId,user);
 		return cvs.stream().map(cv -> cv.maakBeknopt()).toList();
 	}
 }

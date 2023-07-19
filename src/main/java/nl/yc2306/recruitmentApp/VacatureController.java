@@ -74,12 +74,8 @@ public Iterable<Vacature> all() {
 
 @RequestMapping(method = RequestMethod.GET, value = "vacatures/myvacatures/{AUTH_TOKEN}")
 public Iterable<Vacature> getAccountVacatures(@PathVariable String AUTH_TOKEN) {
-	System.out.println("Received AUTH_TOKEN: " + AUTH_TOKEN);
-
     // Fetch the account using the token
     Account account = loginService.findLoggedinUser(AUTH_TOKEN);
-    
-    System.out.println("This is the account " + account);
 
     if (account == null) {
         System.out.println("No account found for AUTH_TOKEN: " + AUTH_TOKEN);
@@ -87,12 +83,10 @@ public Iterable<Vacature> getAccountVacatures(@PathVariable String AUTH_TOKEN) {
         // You can return an empty list or an error response here
         return Collections.emptyList();
     }
-    
-    System.out.println("Account found for AUTH_TOKEN: " + AUTH_TOKEN);
+
     Iterable<Vacature> accountVacatures = service.findVacaturesByAccountId(account.getId());
 
     // You may add additional logic here if needed, such as handling the case when no vacancies are found
-
     return accountVacatures;
 }
 

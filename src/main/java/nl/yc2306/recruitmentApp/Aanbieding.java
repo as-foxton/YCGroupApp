@@ -2,6 +2,8 @@ package nl.yc2306.recruitmentApp;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,9 +18,11 @@ public class Aanbieding {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+	@JsonIgnore
 	@ManyToOne(optional = false)
 	private Vacature vacature;
 	
+	@JsonIgnore
 	@ManyToOne(optional = false)
 	private CurriculumVitae curriculumVitae;
 	

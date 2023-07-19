@@ -27,6 +27,7 @@ public class AccountController {
 	public Optional<Account> find (@PathVariable long id) {
 		return service.vindBijId(id);
 	}
+	
 	// maak aan 
 	@RequestMapping(method = RequestMethod.POST, value = "account/create")
 	public Account maakAan (@RequestBody Account account) {

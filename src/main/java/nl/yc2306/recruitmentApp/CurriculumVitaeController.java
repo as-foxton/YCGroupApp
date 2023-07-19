@@ -2,12 +2,14 @@ package nl.yc2306.recruitmentApp;
 
 import nl.yc2306.recruitmentApp.DTOs.BeknoptCV;
 import nl.yc2306.recruitmentApp.DTOs.FilterRequest;
+import nl.yc2306.recruitmentApp.Login.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
@@ -15,23 +17,21 @@ public class CurriculumVitaeController {
     @Autowired
     private CurriculumVitaeService curriculumVitaeService;
 
+    @Autowired
+    private LoginService loginService;
+
     @RequestMapping("curriculum_vitae/all")
     public Iterable<CurriculumVitae> getCVs(){
         return curriculumVitaeService.getAll();
     }
 
     @RequestMapping("curriculum_vitae/beknopt")
-    public Iterable<BeknoptCV> getCVsBeknopt(@RequestBody FilterRequest filterparams){
-        Iterable<CurriculumVitae> cvs = curriculumVitaeService.getFiltered(filterparams);
-        List<BeknoptCV> minimalCvs = new ArrayList<BeknoptCV>();
-        for (CurriculumVitae cv: cvs) {
-            BeknoptCV bcv = new BeknoptCV();
-            bcv.setId(cv.getId());
-            bcv.setNaam(cv.getPersoon().getNaam());
-            bcv.setLocatie(cv.getPersoon().getLocatie());
-            bcv.setUitstroomRichting(cv.getUitstroomRichting());
-            minimalCvs.add(bcv);
-        }
+    public Iterable<BeknoptCV> getCVsBeknopt(@RequestHeader String AUTH_TOKEN, @RequestBody FilterRequest filterparams){
+        String[] pages = {"/showcvs.html"};
+        if(!loginService.isAuthorised(AUTH_TOKEN, pages))
+            return null;
+        List<CurriculumVitae> cvs = curriculumVitaeService.getFiltered(filterparams);
+        List<BeknoptCV> minimalCvs = cvs.stream().map(cv -> cv.getBeknopt()).toList();
         return minimalCvs;
     }
 
@@ -41,7 +41,12 @@ public class CurriculumVitaeController {
     }
 
     @RequestMapping(method=RequestMethod.POST, value="curriculum_vitae/add")
-    public void add(@RequestBody CurriculumVitae cv){
+    public void add(@RequestHeader String AUTH_TOKEN, @RequestBody CurriculumVitae cv){
+        String[] pages = {"/CreateCV.html"};
+        if(!loginService.isAuthorised(AUTH_TOKEN, pages))
+            return;
+        Account user = loginService.findLoggedinUser(AUTH_TOKEN);
+        cv.setPersoon(user);
         curriculumVitaeService.Save(cv);
     }
 

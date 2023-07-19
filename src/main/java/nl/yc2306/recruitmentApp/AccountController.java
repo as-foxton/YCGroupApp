@@ -23,10 +23,12 @@ public class AccountController {
 		return service.vindAlleAccounts();
 	}
 	// vind bij id
-		@RequestMapping("account/{id}")
-		public Optional<Account> find (@PathVariable long id) {
-			return service.vindBijId(id);
-		}
+
+	@RequestMapping("account/{id}")
+	public Optional<Account> find (@PathVariable long id) {
+		return service.vindBijId(id);
+	}
+
 	
 	// maak aan 
 	@RequestMapping(method = RequestMethod.POST, value = "account/create")

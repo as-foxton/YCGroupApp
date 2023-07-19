@@ -8,6 +8,8 @@ import java.util.Optional;
 import nl.yc2306.recruitmentApp.DTOs.BeknoptCV;
 import nl.yc2306.recruitmentApp.DTOs.BeknopteVacature;
 import nl.yc2306.recruitmentApp.DTOs.FilterRequest;
+import nl.yc2306.recruitmentApp.DTOs.VacatureDetail;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.web.JsonPath;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 
 @RestController
 @CrossOrigin(maxAge=2030)
@@ -79,4 +80,28 @@ public Iterable<Vacature> all() {
         return minimalvacatures;
     }
 	
+
+	@RequestMapping(method = RequestMethod.GET, value = "vacature/vacaturedetail/{vacatureId}")
+	public VacatureDetail getVacatureDetail(@PathVariable long vacatureId) {
+		Vacature vacature = new Vacature();
+		VacatureDetail vd = new VacatureDetail();
+		
+		if (service.findVacatureById(vacatureId).isPresent())
+		{
+			// Get vacature from Optional<Vacature>
+			vacature = service.findVacatureById(vacatureId).get();
+		}
+		
+//		service.findVacatureById(vacatureId).ifPresent(v -> {
+//            vacature = v;    
+//        });
+		
+		vd.setBedrijf(vacature.getBedrijf());
+		vd.setFunctie(vacature.getFunctie());
+		vd.setLocatie(vacature.getLocatie());
+		vd.setOmschrijving(vacature.getOmschrijving());
+		vd.setUitstroomRichting(vacature.getUitstroomRichting());
+		
+		return vd;
+	}	
 }

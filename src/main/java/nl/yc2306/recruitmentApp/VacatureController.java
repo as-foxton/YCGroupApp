@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -33,25 +34,16 @@ private VacatureService service;
 @Autowired
 private LoginService loginService;
 	
-@RequestMapping(method = RequestMethod.PUT, value = "vacature/update/{id}")
-public void update(@PathVariable long id, @RequestBody Vacature newVacature) {
-    // Step 1 - Find current vacature
-    Optional<Vacature> optional = service.findVacatureById(id); // Assuming findVacatureById returns Optional<Vacature>
-    
-    if (optional.isPresent()) {
-        Vacature dbVacature = optional.get();
-        dbVacature.setAccount(newVacature.getAccount());
-        dbVacature.setBedrijf(newVacature.getBedrijf());
-        dbVacature.setLocatie(newVacature.getLocatie());
-        dbVacature.setOmschrijving(newVacature.getOmschrijving());
-        dbVacature.setUitstroomRichting(newVacature.getUitstroomRichting());
-        dbVacature.setFunctie(newVacature.getFunctie());
-
-        // Step 2 - Save the updated vacature
-        service.saveVacature(dbVacature);
-    }
+@RequestMapping(method=RequestMethod.PUT, value="vacature/update/{id}")
+public void update(@PathVariable long id, @RequestBody Vacature newVacature){
+	Vacature current = service.findVacatureById(id).get();
+    current.setBedrijf(newVacature.getBedrijf());
+    current.setLocatie(newVacature.getLocatie());
+    current.setOmschrijving(newVacature.getOmschrijving());
+    current.setUitstroomRichting(newVacature.getUitstroomRichting());
+    current.setFunctie(newVacature.getFunctie());
+    service.saveVacature(current);
 }
-
 	
 @RequestMapping(method = RequestMethod.DELETE, value = "vacature/delete/{id}")
 public void delete(@PathVariable long id) {
@@ -59,12 +51,16 @@ public void delete(@PathVariable long id) {
 	}
 	
 
-@RequestMapping(method = RequestMethod.POST, value = "vacature/create")
-public void maakAan(@RequestBody Vacature vacature) {
-		System.out.println("Het naam van de bedrijf is "  + vacature.getBedrijf());
-		service.saveVacature(vacature);
-		
-	}
+@RequestMapping(method=RequestMethod.POST, value="vacature/create")
+public void add(@RequestHeader String AUTH_TOKEN, @RequestBody Vacature vacature){
+   
+    Account user = loginService.findLoggedinUser(AUTH_TOKEN);
+    System.out.println("test");
+    vacature.setAccount(user);
+    service.saveVacature(vacature);
+    System.out.println("saveVacature()");
+    System.out.println(vacature);
+}
 	
 @RequestMapping("vacature/all")
 public Iterable<Vacature> all() {

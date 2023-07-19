@@ -1,9 +1,13 @@
 package nl.yc2306.recruitmentApp;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import nl.yc2306.recruitmentApp.DTOs.FeedbackItem;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
@@ -66,5 +70,27 @@ public class FeedbackController {
 	public void DeleteFeedback(@PathVariable long id)
 	{
 		service.delete(id);
+	}
+	
+	// GET list of feedbacks
+	@RequestMapping("feedback/feedbacklist")
+	public List<FeedbackItem> GetFeedbackList ()
+	{
+		Iterable<Feedback> list = service.GetAll();
+		List<FeedbackItem> dtoList = new ArrayList<FeedbackItem>();
+        for (Feedback fb: list) {
+            FeedbackItem fItem = new FeedbackItem();
+            
+            fItem.setId(fb.getId());
+            fItem.setAccountName(fb.getAccount().getNaam());
+            fItem.setBedrijf(fb.getAccount().getBedrijf());
+            fItem.setMening(fb.getMening());
+            // Get "aangenomen" van Aanbieding Class
+            //fItem.setAangenomen();
+            
+            dtoList.add(fItem);
+        }
+
+		return dtoList;
 	}
 }

@@ -2,6 +2,7 @@ package nl.yc2306.recruitmentApp;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@CrossOrigin(maxAge=2030)
+@CrossOrigin(maxAge=2030, origins = "*")
 public class VacatureController {
 
 @Autowired
@@ -36,7 +37,7 @@ private LoginService loginService;
 public void update(@PathVariable long id, @RequestBody Vacature newVacature) {
     // Step 1 - Find current vacature
     Optional<Vacature> optional = service.findVacatureById(id); // Assuming findVacatureById returns Optional<Vacature>
-
+    
     if (optional.isPresent()) {
         Vacature dbVacature = optional.get();
         dbVacature.setAccount(newVacature.getAccount());
@@ -71,16 +72,30 @@ public Iterable<Vacature> all() {
 	}
 
 
-@RequestMapping(method = RequestMethod.GET, value = "vacature/myVacatures/{account}")
-public Iterable<Vacature> getAccountVacatures(@RequestHeader String AUTH_TOKEN) {
-    // Fetch the vacancies for the specified accountId using the service method (assuming you have one)
-	Account account = loginService.findLoggedinUser(AUTH_TOKEN);
+@RequestMapping(method = RequestMethod.GET, value = "vacatures/myvacatures/{AUTH_TOKEN}")
+public Iterable<Vacature> getAccountVacatures(@PathVariable String AUTH_TOKEN) {
+	System.out.println("Received AUTH_TOKEN: " + AUTH_TOKEN);
+
+    // Fetch the account using the token
+    Account account = loginService.findLoggedinUser(AUTH_TOKEN);
+    
+    System.out.println("This is the account " + account);
+
+    if (account == null) {
+        System.out.println("No account found for AUTH_TOKEN: " + AUTH_TOKEN);
+        // Handle the case when the user is not logged in or the token is invalid
+        // You can return an empty list or an error response here
+        return Collections.emptyList();
+    }
+    
+    System.out.println("Account found for AUTH_TOKEN: " + AUTH_TOKEN);
     Iterable<Vacature> accountVacatures = service.findVacaturesByAccountId(account.getId());
 
     // You may add additional logic here if needed, such as handling the case when no vacancies are found
 
     return accountVacatures;
 }
+
 
     @RequestMapping("vacatures/beknopt")
     public Iterable<BeknopteVacature> getCVsBeknopt(@RequestBody FilterRequest filterparams){

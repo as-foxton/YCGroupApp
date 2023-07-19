@@ -30,8 +30,7 @@ public class VacatureService {
 	}
 	
 	public Iterable<Vacature> findVacaturesByAccountId(long account) {
-        // Assuming you have a "accountId" field in the "Vacature" entity representing the account ID
-        return repository.findByAccount_Id(account);
+        return repository.findByAccountId(account);
 	}
 	
 	public void saveVacature(Vacature vacature) {

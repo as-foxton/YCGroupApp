@@ -22,11 +22,15 @@ public class VacatureService {
 	
 	
 	public Iterable<Vacature> vindAlleVacatures() {
-		return repository.findAll();		
+		return repository.findAll();
+	}
+			
+	public Optional<Vacature> findVacatureById(long id) {
+		return repository.findById(id);
 	}
 	
-	public Optional<Vacature> findVacatureById(long vacatureId) {
-		return repository.findById(vacatureId);
+	public Iterable<Vacature> findVacaturesByAccountId(long account) {
+        return repository.findByAccountId(account);
 	}
 	
 	public void saveVacature(Vacature vacature) {
@@ -39,8 +43,8 @@ public class VacatureService {
 	}
 
 
-	public void deleteVacature(long vacatureId) {
-		repository.deleteById(vacatureId);
+	public void deleteVacature(long id) {
+		repository.deleteById(id);
 	}
 
 	public Iterable<Vacature> getFiltered(FilterRequest filterparams){
@@ -54,4 +58,5 @@ public class VacatureService {
 		}
 		return vacatures;
 	}
+		
 }

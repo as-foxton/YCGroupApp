@@ -77,7 +77,7 @@ public class CurriculumVitae  implements HasLocatie {
         return persoon.getLocatie();
     }
 
-    public BeknoptCV getBeknopt(){
+    public BeknoptCV maakBeknopt(){
         BeknoptCV beknopt = new BeknoptCV();
         beknopt.setId(id);
         beknopt.setLocatie(getLocatie());

@@ -25,7 +25,7 @@ public class AanbiedingController {
 
 	@GetMapping("/aanbieding/nieuw/{vacatureId}")
 	public Iterable<AanbiedingAanBedrijf> nieuweAanbiedingenPerVacature(@RequestHeader String AUTH_TOKEN, @PathVariable long vacatureId){
-		String[] pages = {"/mijnaanbiedingen.html"};
+		String[] pages = {"/aanbiedingenpervacature.html"};
 		if(!loginService.isAuthorised(AUTH_TOKEN, pages))
 			return null;
 		Account user = loginService.findLoggedinUser(AUTH_TOKEN);
@@ -35,7 +35,7 @@ public class AanbiedingController {
 
 	@GetMapping("/aanbieding/uitgenodigd/{vacatureId}")
 	public Iterable<AanbiedingAanBedrijf> uitgenodigdeKandidaten(@RequestHeader String AUTH_TOKEN, @PathVariable long vacatureId){
-		String[] pages = {"/mijnaanbiedingen.html"};
+		String[] pages = {"/aanbiedingenpervacature.html"};
 		if(!loginService.isAuthorised(AUTH_TOKEN, pages))
 			return null;
 		Account user = loginService.findLoggedinUser(AUTH_TOKEN);

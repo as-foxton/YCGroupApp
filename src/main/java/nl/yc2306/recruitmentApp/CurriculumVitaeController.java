@@ -36,7 +36,7 @@ public class CurriculumVitaeController {
 
     @RequestMapping("curriculum_vitae/find")
     public VolledigCVMetNaamEnLocatie getSpecific(@RequestHeader String AUTH_TOKEN, @RequestParam long id){
-        String[] pages = {"/mijnaanbiedingen.html"};
+        String[] pages = {"/aanbiedingenpervacature.html"};
         if(!loginService.isAuthorised(AUTH_TOKEN, pages))
             return null;
         Optional<CurriculumVitae> result = curriculumVitaeService.getOne(id);

@@ -2,6 +2,7 @@ package nl.yc2306.recruitmentApp;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import nl.yc2306.recruitmentApp.distance.HasLocatie;
 
@@ -27,10 +28,11 @@ public class Vacature implements HasLocatie {
 	@Column(length = 200, nullable = false)
 	private String functie;
 
-	@ManyToOne
+	@ManyToOne()
 	private Account account;
-	
-	@OneToMany(mappedBy = "vacature")
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "vacature", fetch = FetchType.LAZY)
 	private List<Aanbieding> aanbiedingen;
 
 	public long getId() {

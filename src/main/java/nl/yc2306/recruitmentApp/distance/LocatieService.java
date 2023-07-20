@@ -1,11 +1,13 @@
 package nl.yc2306.recruitmentApp.distance;
 
 import java.util.List;
-import kong.unirest.GenericType;
-import kong.unirest.Unirest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import kong.unirest.GenericType;
+import kong.unirest.Unirest;
 
 @Service
 public class LocatieService {

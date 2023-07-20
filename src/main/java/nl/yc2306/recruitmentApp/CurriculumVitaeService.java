@@ -1,14 +1,13 @@
 package nl.yc2306.recruitmentApp;
-import nl.yc2306.recruitmentApp.DTOs.FilterRequest;
-import nl.yc2306.recruitmentApp.distance.DistanceService;
-import nl.yc2306.recruitmentApp.distance.HasLocatie;
-import nl.yc2306.recruitmentApp.distance.LocatieNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import nl.yc2306.recruitmentApp.DTOs.FilterRequest;
+import nl.yc2306.recruitmentApp.distance.DistanceService;
 
 @Service
 public class CurriculumVitaeService {

@@ -14,6 +14,7 @@ import nl.yc2306.recruitmentApp.DTOs.FeedbackItem;
 public class FeedbackController {
 	@Autowired
 	public FeedbackService service;
+	public AccountService serviceAccount;
 	
 	// GET ALL Feedback
 	@RequestMapping("feedback/all")
@@ -73,21 +74,62 @@ public class FeedbackController {
 	}
 	
 	// GET list of feedbacks
-	@RequestMapping("feedback/feedbacklist")
-	public List<FeedbackItem> GetFeedbackList ()
+	@RequestMapping("feedback/feedbacklist/{id}")
+	public List<FeedbackItem> GetFeedbackList (@PathVariable long id)
 	{
 		Iterable<Feedback> list = service.GetAll();
 		List<FeedbackItem> dtoList = new ArrayList<FeedbackItem>();
-        for (Feedback fb: list) {
-            FeedbackItem fItem = new FeedbackItem();
-            
-            fItem.setId(fb.getId());
-            fItem.setAccountName(fb.getAccount().getNaam());
-            fItem.setBedrijf(fb.getAccount().getBedrijf());
-            fItem.setMening(fb.getMening());
-            // Get "aangenomen" van Aanbieding Class
-            //fItem.setAangenomen();
-            
+        Account user = new Account();
+        String rol = ""; // rollen filter voor feedbacks
+        
+        if (service.FindAccount(id).isPresent())
+		{
+        	// Get Account from Optional<Account>
+			user = service.FindAccount(id).get();
+		}
+        
+        rol = user.getRol();
+        
+		for (Feedback fb: list) {
+			FeedbackItem fItem = new FeedbackItem();
+
+			// Verander rol op basis van rol van ingelogde gebruiker
+        	switch(rol)
+            {
+//            	case "administrator": // Show all feedbacks
+//            		break;
+//            	case "accountmanager": // Show all feedbacks
+//            		break;
+            	case "opdrachtgever": // Show only feedbacks of trainees
+            		rol = "trainee";
+            		break;
+            	case "trainee": // Show only feedbacks of opdrachtgever
+            		rol = "opdrachtgever";
+            		break;
+        		default: // Show all feedbacks
+        			rol = "";
+        			break;
+            }
+        	
+        	if (fb.getAccount().getRol() == rol)
+        	{
+        		fItem.setId(fb.getId());
+                fItem.setAccountName(fb.getAccount().getNaam());
+                fItem.setBedrijf(fb.getAccount().getBedrijf());
+                fItem.setMening(fb.getMening());
+                // Get "aangenomen" van Aanbieding Class
+                //fItem.setAangenomen();
+        	}
+        	else
+        	{
+        		fItem.setId(fb.getId());
+                fItem.setAccountName(fb.getAccount().getNaam());
+                fItem.setBedrijf(fb.getAccount().getBedrijf());
+                fItem.setMening(fb.getMening());
+                // Get "aangenomen" van Aanbieding Class
+                //fItem.setAangenomen();
+        	}
+
             dtoList.add(fItem);
         }
 

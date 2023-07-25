@@ -72,4 +72,10 @@ public class LoginService {
         if(activeTokens.containsKey(token))
             activeTokens.remove(token);
     }
+
+    public Iterable<String> getAccessiblePages(String rol){
+        List<Permission> per = permissions.findAllByRol(rol);
+        List<String> pages = per.stream().map(permission -> permission.getPage()).toList();
+        return pages;
+    }
 }

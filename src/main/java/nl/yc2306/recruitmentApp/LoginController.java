@@ -3,9 +3,12 @@ package nl.yc2306.recruitmentApp;
 import nl.yc2306.recruitmentApp.DTOs.AccountGegevens;
 import nl.yc2306.recruitmentApp.DTOs.LoginRequest;
 import nl.yc2306.recruitmentApp.Login.LoginService;
+import nl.yc2306.recruitmentApp.Login.Permission;
 import nl.yc2306.recruitmentApp.Login.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
@@ -42,5 +45,13 @@ public class LoginController {
     @RequestMapping(method= RequestMethod.GET, value="logout")
     public void logout(@RequestHeader String AUTH_TOKEN){
         loginService.logout(AUTH_TOKEN);
+    }
+
+    @GetMapping("/pages")
+    public Iterable<String> getPages(@RequestHeader String AUTH_TOKEN){
+        Account user = loginService.findLoggedinUser(AUTH_TOKEN);
+        if(user == null)
+            return new ArrayList<>();
+        return loginService.getAccessiblePages(user.getRol());
     }
 }

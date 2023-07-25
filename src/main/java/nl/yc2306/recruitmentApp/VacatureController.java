@@ -26,6 +26,7 @@ public class VacatureController {
     @Autowired
     private VacatureService service;
 
+
     @Autowired
     private LoginService loginService;
 
@@ -38,7 +39,9 @@ public class VacatureController {
         current.setUitstroomRichting(newVacature.getUitstroomRichting());
         current.setFunctie(newVacature.getFunctie());
         service.saveVacature(current);
-    }
+
+
+
 
     @RequestMapping(method = RequestMethod.DELETE, value = "vacature/delete/{id}")
     public void delete(@PathVariable long id) {
@@ -77,6 +80,7 @@ public class VacatureController {
         // You may add additional logic here if needed, such as handling the case when no vacancies are found
         return accountVacatures;
     }
+
 
 
     @RequestMapping("vacatures/beknopt")

@@ -65,21 +65,15 @@ public class VacatureController {
     @RequestMapping(method = RequestMethod.GET, value = "vacatures/myvacatures/{AUTH_TOKEN}")
     public Iterable<Vacature> getAccountVacatures(@PathVariable String AUTH_TOKEN) {
         String[] roles = {"Opdrachtgever"};
-        if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+        if (!loginService.isAuthorised(AUTH_TOKEN, roles))
             return null;
-        // Fetch the account using the token
         Account account = loginService.findLoggedinUser(AUTH_TOKEN);
 
         if (account == null) {
             System.out.println("No account found for AUTH_TOKEN: " + AUTH_TOKEN);
-            // Handle the case when the user is not logged in or the token is invalid
-            // You can return an empty list or an error response here
             return Collections.emptyList();
         }
-
         Iterable<Vacature> accountVacatures = service.findVacaturesByAccountId(account.getId());
-
-        // You may add additional logic here if needed, such as handling the case when no vacancies are found
         return accountVacatures;
     }
 
@@ -101,9 +95,6 @@ public class VacatureController {
         }
         return minimalvacatures;
     }
-
-   
-	
 
 	@RequestMapping(method = RequestMethod.GET, value = "vacature/vacaturedetail/{vacatureId}")
 	public VacatureDetail getVacatureDetail(@RequestHeader String AUTH_TOKEN, @PathVariable long vacatureId) {

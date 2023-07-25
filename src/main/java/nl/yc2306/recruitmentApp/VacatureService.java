@@ -2,11 +2,10 @@ package nl.yc2306.recruitmentApp;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import nl.yc2306.recruitmentApp.DTOs.FilterRequest;
 import nl.yc2306.recruitmentApp.distance.DistanceService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
 

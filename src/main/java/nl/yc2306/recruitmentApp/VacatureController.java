@@ -26,6 +26,7 @@ public class VacatureController {
 @Autowired
 private VacatureService service;
 
+
 @Autowired
 private LoginService loginService;
 	
@@ -75,11 +76,13 @@ public Iterable<Vacature> getAccountVacatures(@PathVariable String AUTH_TOKEN) {
         return Collections.emptyList();
     }
 
+
     Iterable<Vacature> accountVacatures = service.findVacaturesByAccountId(account.getId());
 
     // You may add additional logic here if needed, such as handling the case when no vacancies are found
     return accountVacatures;
 }
+
 
 
     @RequestMapping("vacatures/beknopt")

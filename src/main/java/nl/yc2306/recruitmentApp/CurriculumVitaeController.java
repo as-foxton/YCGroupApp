@@ -4,13 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import nl.yc2306.recruitmentApp.DTOs.BeknoptCV;
 import nl.yc2306.recruitmentApp.DTOs.CVUpdate;
@@ -62,24 +56,25 @@ public class CurriculumVitaeController {
         if(!loginService.isAuthorised(AUTH_TOKEN, roles))
             return;
         Account user = loginService.findLoggedinUser(AUTH_TOKEN);
-        cv.setPersoon(user);
-        curriculumVitaeService.Save(cv);
+        if(user.getCurriculumVitae() == null){
+            cv.setPersoon(user);
+            curriculumVitaeService.Save(cv);
+        }else{
+            CurriculumVitae updatecv = user.getCurriculumVitae();
+            updatecv.setSpecialiteit(cv.getSpecialiteit());
+            updatecv.setUitstroomRichting(cv.getUitstroomRichting());
+            updatecv.setOmschrijving(cv.getOmschrijving());
+            updatecv.setWerkHistorie(cv.getWerkHistorie());
+            curriculumVitaeService.Save(updatecv);
+        }
     }
 
-    @RequestMapping(method=RequestMethod.PUT, value="curriculum_vitae/update")
-    public void update(@RequestHeader String AUTH_TOKEN, @RequestParam long id, @RequestBody CVUpdate cv){
+    @GetMapping("curriculum_vitae/mine")
+    public CurriculumVitae getMyCv(@RequestHeader String AUTH_TOKEN){
         String[] roles = {"Trainee"};
         if(!loginService.isAuthorised(AUTH_TOKEN, roles))
-            return;
-        CurriculumVitae current = curriculumVitaeService.getOne(id).get();
-        if(cv.getOmschrijving() != null)
-            current.setOmschrijving(cv.getOmschrijving());
-        if(cv.getWerkHistorie() != null)
-            current.setWerkHistorie(cv.getWerkHistorie());
-        if(cv.getUitstroomRichting() != null)
-            current.setUitstroomRichting(cv.getUitstroomRichting());
-        if(cv.getSpecialiteit() != null)
-            current.setSpecialiteit(cv.getSpecialiteit());
-        curriculumVitaeService.Save(current);
+            return null;
+        Account user = loginService.findLoggedinUser(AUTH_TOKEN);
+        return user.getCurriculumVitae();
     }
 }

@@ -55,16 +55,6 @@
 
 	<build>
 		<plugins>
-			<!-- Update the Maven Compiler Plugin version to a compatible version -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.9.3</version> <!-- Change this to a version that supports your chosen Java version -->
-				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

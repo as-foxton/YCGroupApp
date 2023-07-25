@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import kong.unirest.GenericType;
@@ -21,7 +22,12 @@ public class LocatieService {
     public void addLocatie(Locatie nieuweLocatie){
         Locatie bewerkteLocatie = nieuweLocatie;
         bewerkteLocatie.setCity(bewerkteLocatie.getCity().toLowerCase());
-        locaties.save(bewerkteLocatie);
+        try{
+            locaties.save(bewerkteLocatie);
+        }
+        catch(DataAccessException e){
+            System.out.println(e);
+        }
     }
 
     public Locatie findLocatie(String city) throws LocatieNotFoundException{

@@ -78,6 +78,8 @@ public class LoginService {
 
     public boolean isAuthorised(String token, String[] roles){
         Account user = findLoggedinUser(token);
+        if(user == null)
+            return false;
         if(Arrays.stream(roles).anyMatch(s -> s.toLowerCase().equals(user.getRol().toLowerCase())))
             return true;
         return false;

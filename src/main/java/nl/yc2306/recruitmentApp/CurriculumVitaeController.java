@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import nl.yc2306.recruitmentApp.DTOs.BeknoptCV;
+import nl.yc2306.recruitmentApp.DTOs.CVUpdate;
 import nl.yc2306.recruitmentApp.DTOs.FilterRequest;
 import nl.yc2306.recruitmentApp.DTOs.VolledigCVMetNaamEnLocatie;
 import nl.yc2306.recruitmentApp.Login.LoginService;
@@ -25,11 +26,6 @@ public class CurriculumVitaeController {
 
     @Autowired
     private LoginService loginService;
-
-    @RequestMapping("curriculum_vitae/all")
-    public Iterable<CurriculumVitae> getCVs(){
-        return curriculumVitaeService.getAll();
-    }
 
     @RequestMapping("curriculum_vitae/beknopt")
     public Iterable<BeknoptCV> getCVsBeknopt(@RequestHeader String AUTH_TOKEN, @RequestBody FilterRequest filterparams){
@@ -76,12 +72,16 @@ public class CurriculumVitaeController {
     }
 
     @RequestMapping(method=RequestMethod.PUT, value="curriculum_vitae/update")
-    public void update(@RequestParam long id, @RequestBody CurriculumVitae cv){
+    public void update(@RequestParam long id, @RequestBody CVUpdate cv){
         CurriculumVitae current = curriculumVitaeService.getOne(id).get();
-        current.setOmschrijving(cv.getOmschrijving());
-        current.setWerkHistorie(cv.getWerkHistorie());
-        current.setUitstroomRichting(cv.getUitstroomRichting());
-        current.setSpecialiteit(cv.getSpecialiteit());
+        if(cv.getOmschrijving() != null)
+            current.setOmschrijving(cv.getOmschrijving());
+        if(cv.getWerkHistorie() != null)
+            current.setWerkHistorie(cv.getWerkHistorie());
+        if(cv.getUitstroomRichting() != null)
+            current.setUitstroomRichting(cv.getUitstroomRichting());
+        if(cv.getSpecialiteit() != null)
+            current.setSpecialiteit(cv.getSpecialiteit());
         curriculumVitaeService.Save(current);
     }
 }

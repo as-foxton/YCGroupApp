@@ -40,13 +40,6 @@ public class FeedbackController {
 		return service.Find(id);
 	}
 	
-	// GET
-	@RequestMapping("feedback/findaccount/{id}")
-	public Optional<Account> FindAccount(@PathVariable long id)
-	{
-		return service.FindAccount(id);
-	}
-	
 	// SAVE
 	@RequestMapping(method = RequestMethod.POST, value = "feedback/save")
 	public void SaveFeedback(@RequestHeader String AUTH_TOKEN, @RequestBody Feedback feedback)

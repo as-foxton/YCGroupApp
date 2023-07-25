@@ -90,4 +90,10 @@ public class LoginService {
 	        this.accountTokenService.delete(accountToken);
     	}
     }
+
+    public Iterable<String> getAccessiblePages(String rol){
+        List<Permission> per = permissions.findAllByRol(rol);
+        List<String> pages = per.stream().map(permission -> permission.getPage()).toList();
+        return pages;
+    }
 }

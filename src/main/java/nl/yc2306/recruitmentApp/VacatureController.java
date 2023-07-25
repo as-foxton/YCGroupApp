@@ -23,63 +23,60 @@ import nl.yc2306.recruitmentApp.Login.LoginService;
 @CrossOrigin(maxAge=2030, origins = "*")
 public class VacatureController {
 
-@Autowired
-private VacatureService service;
+    @Autowired
+    private VacatureService service;
 
-@Autowired
-private LoginService loginService;
-	
-@RequestMapping(method=RequestMethod.PUT, value="vacature/update/{id}")
-public void update(@PathVariable long id, @RequestBody Vacature newVacature){
-	Vacature current = service.findVacatureById(id).get();
-    current.setBedrijf(newVacature.getBedrijf());
-    current.setLocatie(newVacature.getLocatie());
-    current.setOmschrijving(newVacature.getOmschrijving());
-    current.setUitstroomRichting(newVacature.getUitstroomRichting());
-    current.setFunctie(newVacature.getFunctie());
-    service.saveVacature(current);
-}
-	
-@RequestMapping(method = RequestMethod.DELETE, value = "vacature/delete/{id}")
-public void delete(@PathVariable long id) {
-		service.deleteVacature(id);
-	}
-	
+    @Autowired
+    private LoginService loginService;
 
-@RequestMapping(method=RequestMethod.POST, value="vacature/create")
-public void add(@RequestHeader String AUTH_TOKEN, @RequestBody Vacature vacature){
-   
-    Account user = loginService.findLoggedinUser(AUTH_TOKEN);
-    System.out.println("test");
-    vacature.setAccount(user);
-    service.saveVacature(vacature);
-    System.out.println("saveVacature()");
-    System.out.println(vacature);
-}
-	
-@RequestMapping("vacature/all")
-public Iterable<Vacature> all() {
-		return service.vindAlleVacatures();
-	}
-
-
-@RequestMapping(method = RequestMethod.GET, value = "vacatures/myvacatures/{AUTH_TOKEN}")
-public Iterable<Vacature> getAccountVacatures(@PathVariable String AUTH_TOKEN) {
-    // Fetch the account using the token
-    Account account = loginService.findLoggedinUser(AUTH_TOKEN);
-
-    if (account == null) {
-        System.out.println("No account found for AUTH_TOKEN: " + AUTH_TOKEN);
-        // Handle the case when the user is not logged in or the token is invalid
-        // You can return an empty list or an error response here
-        return Collections.emptyList();
+    @RequestMapping(method=RequestMethod.PUT, value="vacature/update/{id}")
+    public void update(@PathVariable long id, @RequestBody Vacature newVacature){
+        Vacature current = service.findVacatureById(id).get();
+        current.setBedrijf(newVacature.getBedrijf());
+        current.setLocatie(newVacature.getLocatie());
+        current.setOmschrijving(newVacature.getOmschrijving());
+        current.setUitstroomRichting(newVacature.getUitstroomRichting());
+        current.setFunctie(newVacature.getFunctie());
+        service.saveVacature(current);
     }
 
-    Iterable<Vacature> accountVacatures = service.findVacaturesByAccountId(account.getId());
+    @RequestMapping(method = RequestMethod.DELETE, value = "vacature/delete/{id}")
+    public void delete(@PathVariable long id) {
+            service.deleteVacature(id);
+        }
 
-    // You may add additional logic here if needed, such as handling the case when no vacancies are found
-    return accountVacatures;
-}
+
+    @RequestMapping(method=RequestMethod.POST, value="vacature/create")
+    public void add(@RequestHeader String AUTH_TOKEN, @RequestBody Vacature vacature){
+
+        Account user = loginService.findLoggedinUser(AUTH_TOKEN);
+        vacature.setAccount(user);
+        service.saveVacature(vacature);
+    }
+
+    @RequestMapping("vacature/all")
+    public Iterable<Vacature> all() {
+            return service.vindAlleVacatures();
+        }
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "vacatures/myvacatures/{AUTH_TOKEN}")
+    public Iterable<Vacature> getAccountVacatures(@PathVariable String AUTH_TOKEN) {
+        // Fetch the account using the token
+        Account account = loginService.findLoggedinUser(AUTH_TOKEN);
+
+        if (account == null) {
+            System.out.println("No account found for AUTH_TOKEN: " + AUTH_TOKEN);
+            // Handle the case when the user is not logged in or the token is invalid
+            // You can return an empty list or an error response here
+            return Collections.emptyList();
+        }
+
+        Iterable<Vacature> accountVacatures = service.findVacaturesByAccountId(account.getId());
+
+        // You may add additional logic here if needed, such as handling the case when no vacancies are found
+        return accountVacatures;
+    }
 
 
     @RequestMapping("vacatures/beknopt")

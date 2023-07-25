@@ -28,7 +28,7 @@ public class AanbiedingService {
 			return new ArrayList<>();
 
 		return vacature.getAanbiedingen().stream()
-				.filter(aanbieding -> !(aanbieding.isUitgenodigd() || aanbieding.isAfgewezen())).toList();
+				.filter(aanbieding -> !(aanbieding.isUitgenodigd() || aanbieding.isAfgewezen() || aanbieding.isAangenomen())).toList();
 	}
 
 	public List<Aanbieding> getUitgenodigdenVanVacature(long id, Account user){
@@ -37,6 +37,6 @@ public class AanbiedingService {
 			return new ArrayList<>();
 
 		return vacature.getAanbiedingen().stream()
-				.filter(aanbieding -> aanbieding.isUitgenodigd() && !aanbieding.isAfgewezen()).toList();
+				.filter(aanbieding -> aanbieding.isUitgenodigd() && !(aanbieding.isAfgewezen() || aanbieding.isAangenomen())).toList();
 	}
 }

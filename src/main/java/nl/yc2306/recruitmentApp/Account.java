@@ -114,8 +114,14 @@ public class Account {
 		this.locatie = locatie;
 	}
 
-	public CurriculumVitae getCurriculumVitae() {
-		return curriculumVitae;
+	@Override
+	public boolean equals(Object obj){
+		if(obj == null || obj.getClass() != this.getClass())
+			return false;
+		Account other = (Account) obj;
+		if(this.id == other.getId())
+			return true;
+		return false;
 	}
 
 	public void setCurriculumVitae(CurriculumVitae curriculumVitae) {

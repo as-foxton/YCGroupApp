@@ -26,6 +26,7 @@ public class VacatureController {
 @Autowired
 private VacatureService service;
 
+// 
 
 @Autowired
 private LoginService loginService;

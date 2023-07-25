@@ -2,10 +2,11 @@ package nl.yc2306.recruitmentApp;
 
 import java.util.Optional;
 
-import nl.yc2306.recruitmentApp.DTOs.FilterRequest;
-import nl.yc2306.recruitmentApp.distance.DistanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import nl.yc2306.recruitmentApp.DTOs.FilterRequest;
+import nl.yc2306.recruitmentApp.distance.DistanceService;
 
 
 
@@ -22,11 +23,15 @@ public class VacatureService {
 	
 	
 	public Iterable<Vacature> vindAlleVacatures() {
-		return repository.findAll();		
+		return repository.findAll();
 	}
-	
+			
 	public Optional<Vacature> findVacatureById(long id) {
 		return repository.findById(id);
+	}
+	
+	public Iterable<Vacature> findVacaturesByAccountId(long account) {
+        return repository.findByAccountId(account);
 	}
 	
 	public void saveVacature(Vacature vacature) {
@@ -54,4 +59,5 @@ public class VacatureService {
 		}
 		return vacatures;
 	}
+		
 }

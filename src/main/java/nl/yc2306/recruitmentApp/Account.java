@@ -1,7 +1,17 @@
 package nl.yc2306.recruitmentApp;
 
-import jakarta.persistence.*;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import nl.yc2306.recruitmentApp.Login.AccountToken;
 
 @Entity
 public class Account {
@@ -21,14 +31,32 @@ public class Account {
 	private String bedrijf;
 	@Column (length=150, nullable=true)
 	private String locatie;
+
+	@JsonIgnore
 	@OneToOne(mappedBy = "persoon", optional = true)
 	private CurriculumVitae curriculumVitae;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "account")
 	private List<Vacature> vacatures;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "account")
 	private List<Feedback> feedbacks;
+	
+	@JsonIgnore
+	@OneToOne(mappedBy = "account")
+	private AccountToken accountToken;
+	
+	@Override
+	public boolean equals(Object obj){
+		if(obj == null || obj.getClass() != this.getClass())
+			return false;
+		Account other = (Account) obj;
+		if(this.id == other.getId())
+			return true;
+		return false;
+	}
 
 	public long getId() {
 		return id;
@@ -85,4 +113,33 @@ public class Account {
 	public void setLocatie(String locatie) {
 		this.locatie = locatie;
 	}
+
+	public void setCurriculumVitae(CurriculumVitae curriculumVitae) {
+		this.curriculumVitae = curriculumVitae;
+	}
+
+	public List<Vacature> getVacatures() {
+		return vacatures;
+	}
+
+	public void setVacatures(List<Vacature> vacatures) {
+		this.vacatures = vacatures;
+	}
+
+	public List<Feedback> getFeedbacks() {
+		return feedbacks;
+	}
+
+	public void setFeedbacks(List<Feedback> feedbacks) {
+		this.feedbacks = feedbacks;
+	}
+
+	public AccountToken getAccountToken() {
+		return accountToken;
+	}
+
+	public void setAccountToken(AccountToken accountToken) {
+		this.accountToken = accountToken;
+	}
+	
 }

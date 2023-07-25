@@ -34,7 +34,10 @@ public class AanbiedingController {
 
 	// @RequestMapping(method = RequestMethod.POST)
 	@PostMapping("/aanbieding/aanmaken")
-	public Aanbieding create(@RequestBody AanbiedingDTO aanbieding) {
+	public Aanbieding create(@RequestHeader String AUTH_TOKEN, @RequestBody AanbiedingDTO aanbieding) {
+		String[] roles = {"Accountmanager"};
+		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+			return null;
 		Aanbieding a=new Aanbieding();
 		a.setVacature(vacatureService.findVacatureById(aanbieding.getVacatureID()).get());
 		a.setCurriculumVitae(curriculumVitaeService.getOne(aanbieding.getCvID()).get());
@@ -45,8 +48,8 @@ public class AanbiedingController {
 
 	@GetMapping("/aanbieding/nieuw/{vacatureId}")
 	public Iterable<AanbiedingAanBedrijf> nieuweAanbiedingenPerVacature(@RequestHeader String AUTH_TOKEN, @PathVariable long vacatureId){
-		String[] pages = {"/aanbiedingenpervacature.html"};
-		if(!loginService.isAuthorised(AUTH_TOKEN, pages))
+		String[] roles = {"Opdrachtgever"};
+		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
 			return null;
 		Account user = loginService.findLoggedinUser(AUTH_TOKEN);
 		List<Aanbieding> aanbiedingen = aanbiedingService.getAanbiedingenVanVacature(vacatureId,user);
@@ -55,8 +58,8 @@ public class AanbiedingController {
 
 	@GetMapping("/aanbieding/uitgenodigd/{vacatureId}")
 	public Iterable<AanbiedingAanBedrijf> uitgenodigdeKandidaten(@RequestHeader String AUTH_TOKEN, @PathVariable long vacatureId){
-		String[] pages = {"/aanbiedingenpervacature.html"};
-		if(!loginService.isAuthorised(AUTH_TOKEN, pages))
+		String[] roles = {"Opdrachtgever"};
+		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
 			return null;
 		Account user = loginService.findLoggedinUser(AUTH_TOKEN);
 		List<Aanbieding> aanbiedingen = aanbiedingService.getUitgenodigdenVanVacature(vacatureId,user);

@@ -30,7 +30,10 @@ public class VacatureController {
     private LoginService loginService;
 
     @RequestMapping(method=RequestMethod.PUT, value="vacature/update/{id}")
-    public void update(@PathVariable long id, @RequestBody Vacature newVacature){
+    public void update(@RequestHeader String AUTH_TOKEN, @PathVariable long id, @RequestBody Vacature newVacature){
+        String[] roles = {"Opdrachtgever"};
+        if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+            return;
         Vacature current = service.findVacatureById(id).get();
         current.setBedrijf(newVacature.getBedrijf());
         current.setLocatie(newVacature.getLocatie());
@@ -41,27 +44,29 @@ public class VacatureController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "vacature/delete/{id}")
-    public void delete(@PathVariable long id) {
+    public void delete(@RequestHeader String AUTH_TOKEN, @PathVariable long id) {
+        String[] roles = {"Opdrachtgever"};
+        if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+            return;
             service.deleteVacature(id);
         }
 
 
     @RequestMapping(method=RequestMethod.POST, value="vacature/create")
     public void add(@RequestHeader String AUTH_TOKEN, @RequestBody Vacature vacature){
-
+        String[] roles = {"Opdrachtgever"};
+        if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+            return;
         Account user = loginService.findLoggedinUser(AUTH_TOKEN);
         vacature.setAccount(user);
         service.saveVacature(vacature);
     }
 
-    @RequestMapping("vacature/all")
-    public Iterable<Vacature> all() {
-            return service.vindAlleVacatures();
-        }
-
-
     @RequestMapping(method = RequestMethod.GET, value = "vacatures/myvacatures/{AUTH_TOKEN}")
     public Iterable<Vacature> getAccountVacatures(@PathVariable String AUTH_TOKEN) {
+        String[] roles = {"Opdrachtgever"};
+        if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+            return null;
         // Fetch the account using the token
         Account account = loginService.findLoggedinUser(AUTH_TOKEN);
 
@@ -80,7 +85,10 @@ public class VacatureController {
 
 
     @RequestMapping("vacatures/beknopt")
-    public Iterable<BeknopteVacature> getCVsBeknopt(@RequestBody FilterRequest filterparams){
+    public Iterable<BeknopteVacature> getVacaturesBeknopt(@RequestHeader String AUTH_TOKEN, @RequestBody FilterRequest filterparams){
+        String[] roles = {"Accountmanager", "Trainee"};
+        if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+            return null;
         Iterable<Vacature> vacatures = service.getFiltered(filterparams);
         List<BeknopteVacature> minimalvacatures = new ArrayList<BeknopteVacature>();
         for (Vacature vacature: vacatures) {
@@ -98,7 +106,10 @@ public class VacatureController {
 	
 
 	@RequestMapping(method = RequestMethod.GET, value = "vacature/vacaturedetail/{vacatureId}")
-	public VacatureDetail getVacatureDetail(@PathVariable long vacatureId) {
+	public VacatureDetail getVacatureDetail(@RequestHeader String AUTH_TOKEN, @PathVariable long vacatureId) {
+        String[] roles = {"Accountmanager", "Trainee"};
+        if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+            return null;
 		Vacature vacature = new Vacature();
 		VacatureDetail vd = new VacatureDetail();
 		

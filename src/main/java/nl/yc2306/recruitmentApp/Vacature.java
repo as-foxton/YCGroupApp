@@ -1,6 +1,17 @@
 package nl.yc2306.recruitmentApp;
 
-import jakarta.persistence.*;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import nl.yc2306.recruitmentApp.distance.HasLocatie;
 
 @Entity
@@ -24,8 +35,14 @@ public class Vacature implements HasLocatie {
 	
 	@Column(length = 200, nullable = false)
 	private String functie;
-	@ManyToOne
+
+	@JsonIgnore
+	@ManyToOne()
 	private Account account;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "vacature", fetch = FetchType.LAZY)
+	private List<Aanbieding> aanbiedingen;
 
 	public long getId() {
 		return id;
@@ -81,6 +98,14 @@ public class Vacature implements HasLocatie {
 
 	public void setAccount(Account account) {
 		this.account = account;
+	}
+
+	public List<Aanbieding> getAanbiedingen() {
+		return aanbiedingen;
+	}
+
+	public void setAanbiedingen(List<Aanbieding> aanbiedingen) {
+		this.aanbiedingen = aanbiedingen;
 	}
 }
 	

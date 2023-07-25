@@ -1,19 +1,15 @@
 package nl.yc2306.recruitmentApp.distance;
 
-import nl.yc2306.recruitmentApp.CurriculumVitae;
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 
 @Service
 public class DistanceService {
     @Autowired
     LocatieService locatieService;
-    public double calculateDistance(String placeA, String placeB)throws LocatieNotFoundException{
-        Locatie a = locatieService.findLocatie(placeA);
-        Locatie b = locatieService.findLocatie(placeB);
-
+    public double calculateDistance(Locatie a, Locatie b)throws LocatieNotFoundException{
         double lon1 = Math.toRadians(a.getLongitude());
         double lon2 = Math.toRadians(b.getLongitude());
         double lat1 = Math.toRadians(a.getLatitude());
@@ -34,15 +30,17 @@ public class DistanceService {
 
     public Iterable<? extends HasLocatie> filterDistance(Iterable<? extends HasLocatie> cvs, String plaats, int maxAfstand){
         ArrayList<HasLocatie> response = new ArrayList<>();
-        for(HasLocatie place :cvs){
-            try {
-                double afstand = calculateDistance(plaats, place.getLocatie());
+        try {
+            Locatie van = locatieService.findLocatie(plaats);
+            for(HasLocatie place :cvs){
+                Locatie naar = locatieService.findLocatie(place.getLocatie());
+                double afstand = calculateDistance(van, naar);
                 if(afstand <= maxAfstand)
                     response.add(place);
             }
-            catch (LocatieNotFoundException e){
-                System.out.printf("een van de plaatsen is niet gevonden: %s, %s",plaats,place.getLocatie());
-            }
+        }
+        catch (LocatieNotFoundException e){
+            System.out.println("een van de plaatsen is niet gevonden");
         }
         return response;
     }

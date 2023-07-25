@@ -1,7 +1,9 @@
 package nl.yc2306.recruitmentApp;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
+import nl.yc2306.recruitmentApp.DTOs.NoPWAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,8 +21,20 @@ public class AccountController {
 	private AccountService service;
 	// get all
 	@RequestMapping ("account/all")
-	public Iterable<Account>all(){
-		return service.vindAlleAccounts();
+	public Iterable<NoPWAccount>all(){
+		Iterable<Account> accounts = service.vindAlleAccounts();
+		ArrayList<NoPWAccount> response = new ArrayList<>();
+		for(Account account : accounts){
+			NoPWAccount dto = new NoPWAccount();
+			dto.setId(account.getId());
+			dto.setNaam(account.getNaam());
+			dto.setEmail(account.getEmail());
+			dto.setRol(account.getRol());
+			dto.setBedrijf(account.getBedrijf());
+			dto.setLocatie(account.getLocatie());
+			response.add(dto);
+		}
+		return response;
 	}
 	// vind bij id
 
@@ -32,8 +46,8 @@ public class AccountController {
 	
 	// maak aan 
 	@RequestMapping(method = RequestMethod.POST, value = "account/create")
-	public Account maakAan (@RequestBody Account account) {
-		return service.voegInAccount(account);
+	public void maakAan (@RequestBody Account account) {
+		service.voegInAccount(account);
 		
 	}
 	// update

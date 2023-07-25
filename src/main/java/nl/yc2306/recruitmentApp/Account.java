@@ -1,5 +1,6 @@
 package nl.yc2306.recruitmentApp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -84,6 +85,30 @@ public class Account {
 
 	public void setLocatie(String locatie) {
 		this.locatie = locatie;
+	}
+
+	public CurriculumVitae getCurriculumVitae() {
+		return curriculumVitae;
+	}
+
+	public void setCurriculumVitae(CurriculumVitae curriculumVitae) {
+		this.curriculumVitae = curriculumVitae;
+	}
+
+	public List<Vacature> getVacatures() {
+		return vacatures;
+	}
+
+	public void setVacatures(List<Vacature> vacatures) {
+		this.vacatures = vacatures;
+	}
+
+	public List<Feedback> getFeedbacks() {
+		return feedbacks;
+	}
+
+	public void setFeedbacks(List<Feedback> feedbacks) {
+		this.feedbacks = feedbacks;
 	}
 
 	@Override

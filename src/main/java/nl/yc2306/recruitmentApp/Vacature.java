@@ -28,6 +28,7 @@ public class Vacature implements HasLocatie {
 	@Column(length = 200, nullable = false)
 	private String functie;
 
+	@JsonIgnore
 	@ManyToOne()
 	private Account account;
 

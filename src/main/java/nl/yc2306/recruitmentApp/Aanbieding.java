@@ -33,6 +33,8 @@ public class Aanbieding {
 	private boolean uitgenodigd;
 	@Column
 	private boolean afgewezen;
+	@Column
+	private boolean aangenomen;
 
 	public long getId() {
 		return id;
@@ -80,6 +82,14 @@ public class Aanbieding {
 
 	public void setAfgewezen(boolean afgewezen) {
 		this.afgewezen = afgewezen;
+	}
+
+	public boolean isAangenomen() {
+		return aangenomen;
+	}
+
+	public void setAangenomen(boolean aangenomen) {
+		this.aangenomen = aangenomen;
 	}
 
 	public AanbiedingAanBedrijf maakAanbiedingAanBedrijf(){

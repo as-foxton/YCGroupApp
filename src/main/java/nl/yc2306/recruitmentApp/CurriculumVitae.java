@@ -1,10 +1,16 @@
 package nl.yc2306.recruitmentApp;
 
-import jakarta.persistence.*;
+import java.util.List;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import nl.yc2306.recruitmentApp.DTOs.BeknoptCV;
 import nl.yc2306.recruitmentApp.distance.HasLocatie;
-
-import java.util.List;
 
 @Entity
 public class CurriculumVitae  implements HasLocatie {

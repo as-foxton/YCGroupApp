@@ -1,7 +1,5 @@
 package nl.yc2306.recruitmentApp.DTOs;
 
-import jakarta.persistence.Column;
-
 public class VolledigCVMetNaamEnLocatie {
     private String naam;
     private String locatie;

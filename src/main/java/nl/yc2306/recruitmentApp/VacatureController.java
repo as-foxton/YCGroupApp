@@ -4,25 +4,20 @@ package nl.yc2306.recruitmentApp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-
-import nl.yc2306.recruitmentApp.DTOs.AccountGegevens;
-import nl.yc2306.recruitmentApp.DTOs.BeknoptCV;
-import nl.yc2306.recruitmentApp.DTOs.BeknopteVacature;
-import nl.yc2306.recruitmentApp.DTOs.FilterRequest;
-import nl.yc2306.recruitmentApp.DTOs.VacatureDetail;
-import nl.yc2306.recruitmentApp.Login.LoginService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.web.JsonPath;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import nl.yc2306.recruitmentApp.DTOs.BeknopteVacature;
+import nl.yc2306.recruitmentApp.DTOs.FilterRequest;
+import nl.yc2306.recruitmentApp.DTOs.VacatureDetail;
+import nl.yc2306.recruitmentApp.Login.LoginService;
 
 @RestController
 @CrossOrigin(maxAge=2030, origins = "*")

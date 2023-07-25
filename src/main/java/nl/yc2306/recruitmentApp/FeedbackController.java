@@ -5,16 +5,26 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import nl.yc2306.recruitmentApp.DTOs.FeedbackItem;
+import nl.yc2306.recruitmentApp.Login.LoginService;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
 public class FeedbackController {
 	@Autowired
 	public FeedbackService service;
-	public AccountService serviceAccount;
+	
+	@Autowired
+	public LoginService loginService;
 	
 	// GET ALL Feedback
 	@RequestMapping("feedback/all")
@@ -32,10 +42,15 @@ public class FeedbackController {
 	
 	// SAVE
 	@RequestMapping(method = RequestMethod.POST, value = "feedback/save")
-	public void SaveFeedback(@RequestBody Feedback feedback)
+	public void SaveFeedback(@RequestHeader String AUTH_TOKEN, @RequestBody Feedback feedback)
 	{
-		service.Save(feedback);
+		Account account = loginService.findLoggedinUser(AUTH_TOKEN);
+		if (account != null) {
+			feedback.setAccount(account);
+			service.Save(feedback);
+		}
 	}
+	
 	@RequestMapping(method = RequestMethod.POST, value = "feedback/savetocv")
 	public void SaveFeedbackToCV(@RequestBody Feedback feedback, @RequestParam long cvId)
 	{

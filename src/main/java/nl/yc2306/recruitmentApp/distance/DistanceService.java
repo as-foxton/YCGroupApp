@@ -1,10 +1,9 @@
 package nl.yc2306.recruitmentApp.distance;
 
-import nl.yc2306.recruitmentApp.CurriculumVitae;
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 
 @Service
 public class DistanceService {

@@ -4,6 +4,7 @@ public class FeedbackItem {
 	private long id;
 	private String accountName;
 	private String bedrijf;
+	private String locatie;
 	private String mening;
 	private boolean aangenomen;
 	
@@ -25,6 +26,12 @@ public class FeedbackItem {
 	}
 	public void setBedrijf(String bedrijf) {
 		this.bedrijf = bedrijf;
+	}
+	public String getLocatie() {
+		return locatie;
+	}
+	public void setLocatie(String locatie) {
+		this.locatie = locatie;
 	}
 	public String getMening() {
 		return mening;

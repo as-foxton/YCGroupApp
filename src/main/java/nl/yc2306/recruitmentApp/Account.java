@@ -145,5 +145,4 @@ public class Account {
 	public void setAccountToken(AccountToken accountToken) {
 		this.accountToken = accountToken;
 	}
-	
 }

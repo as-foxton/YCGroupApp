@@ -4,13 +4,9 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import nl.yc2306.recruitmentApp.DTOs.NoPWAccount;
+import nl.yc2306.recruitmentApp.Login.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -19,9 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccountController {
 	@Autowired
 	private AccountService service;
+
+	@Autowired
+	private LoginService loginService;
 	// get all
 	@RequestMapping ("account/all")
-	public Iterable<NoPWAccount>all(){
+	public Iterable<NoPWAccount>all(@RequestHeader String AUTH_TOKEN){
+		String[] roles = {"Administrator"};
+		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+			return null;
 		Iterable<Account> accounts = service.vindAlleAccounts();
 		ArrayList<NoPWAccount> response = new ArrayList<>();
 		for(Account account : accounts){
@@ -39,20 +41,29 @@ public class AccountController {
 	// vind bij id
 
 	@RequestMapping("account/{id}")
-	public Optional<Account> find (@PathVariable long id) {
+	public Optional<Account> find (@RequestHeader String AUTH_TOKEN, @PathVariable long id) {
+		String[] roles = {"Administrator"};
+		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+			return null;
 		return service.vindBijId(id);
 	}
 
 	
 	// maak aan 
 	@RequestMapping(method = RequestMethod.POST, value = "account/create")
-	public void maakAan (@RequestBody Account account) {
+	public void maakAan (@RequestHeader String AUTH_TOKEN, @RequestBody Account account) {
+		String[] roles = {"Administrator"};
+		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+			return;
 		service.voegInAccount(account);
 		
 	}
 	// update
 	@RequestMapping(method=RequestMethod.PUT, value= "account/update/{id}")
-	public void update(@PathVariable long id, @RequestBody Account newAccount) {
+	public void update(@RequestHeader String AUTH_TOKEN, @PathVariable long id, @RequestBody Account newAccount) {
+		String[] roles = {"Administrator"};
+		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+			return;
 		//vind huidig account
 		Optional<Account> optional = service.vindDmvId(id);
 		// huidig account aanpassen
@@ -69,7 +80,10 @@ public class AccountController {
 	}
 	// delete
 	@RequestMapping("account/delete/{id}")
-	public void delete (@PathVariable long id){
+	public void delete (@RequestHeader String AUTH_TOKEN, @PathVariable long id){
+		String[] roles = {"Administrator"};
+		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+			return;
 		service.deleteAccount(id);
 		return;
 		

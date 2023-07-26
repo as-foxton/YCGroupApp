@@ -47,7 +47,7 @@ jobs:
         run: |
           echo "DB_user=${{ secrets.DB_USER }}" >> $GITHUB_ENV
           echo "DB_pass=${{ secrets.DB_PASS }}" >> $GITHUB_ENV
-          echo "Location_api_key=${{ secrets.Location_api_key }}" >> $GITHUB_ENV
+          echo "Location_api_key=${{ secrets.LOCATION_API_KEY }}" >> $GITHUB_ENV
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp

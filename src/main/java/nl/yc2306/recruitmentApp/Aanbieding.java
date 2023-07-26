@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import nl.yc2306.recruitmentApp.DTOs.AanbiedingAanBedrijf;
+import nl.yc2306.recruitmentApp.DTOs.AanbiedingAanKandidaat;
 
 @Entity
 public class Aanbieding {
@@ -101,6 +102,16 @@ public class Aanbieding {
 		response.setNaam(curriculumVitae.getPersoon().getNaam());
 		response.setLocatie(curriculumVitae.getLocatie());
 		response.setUitstroomRichting(curriculumVitae.getUitstroomRichting());
+		return response;
+	}
+
+	public AanbiedingAanKandidaat maakAanbiedingAanKandidaat(){
+		AanbiedingAanKandidaat response = new AanbiedingAanKandidaat();
+		response.setId(id);
+		response.setVacatureId(vacature.getId());
+		response.setBedrijf(vacature.getBedrijf());
+		response.setFunctie(vacature.getFunctie());
+		response.setLocatie(vacature.getLocatie());
 		return response;
 	}
 }

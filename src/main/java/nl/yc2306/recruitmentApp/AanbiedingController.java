@@ -3,6 +3,7 @@ package nl.yc2306.recruitmentApp;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import nl.yc2306.recruitmentApp.DTOs.AanbiedingAanKandidaat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,7 +47,7 @@ public class AanbiedingController {
 		return newAanbieding;
 	}
 
-	@GetMapping("/aanbieding/nieuw/{vacatureId}")
+	@GetMapping("/aanbieding/werkgever/nieuw/{vacatureId}")
 	public Iterable<AanbiedingAanBedrijf> nieuweAanbiedingenPerVacature(@RequestHeader String AUTH_TOKEN, @PathVariable long vacatureId){
 		String[] roles = {"Opdrachtgever"};
 		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
@@ -56,7 +57,7 @@ public class AanbiedingController {
 		return aanbiedingen.stream().map(aanbieding -> aanbieding.maakAanbiedingAanBedrijf()).toList();
 	}
 
-	@GetMapping("/aanbieding/uitgenodigd/{vacatureId}")
+	@GetMapping("/aanbieding/werkgever/uitgenodigd/{vacatureId}")
 	public Iterable<AanbiedingAanBedrijf> uitgenodigdeKandidaten(@RequestHeader String AUTH_TOKEN, @PathVariable long vacatureId){
 		String[] roles = {"Opdrachtgever"};
 		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
@@ -64,5 +65,25 @@ public class AanbiedingController {
 		Account user = loginService.findLoggedinUser(AUTH_TOKEN);
 		List<Aanbieding> aanbiedingen = aanbiedingService.getUitgenodigdenVanVacature(vacatureId,user);
 		return aanbiedingen.stream().map(aanbieding -> aanbieding.maakAanbiedingAanBedrijf()).toList();
+	}
+
+	@GetMapping("/aanbieding/kandidaat/uitnodiging")
+	public Iterable<AanbiedingAanKandidaat> uitnodigingen(@RequestHeader String AUTH_TOKEN){
+		String[] roles = {"Trainee"};
+		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+			return null;
+		Account user = loginService.findLoggedinUser(AUTH_TOKEN);
+		List<Aanbieding> aanbiedingen = aanbiedingService.getAanbiedingenAanTrainee(user);
+		return aanbiedingen.stream().map(aanbieding -> aanbieding.maakAanbiedingAanKandidaat()).toList();
+	}
+
+	@GetMapping("/aanbieding/kandidaat/nofeedback")
+	public Iterable<AanbiedingAanKandidaat> onbeoordeeldeUitnodigingen(@RequestHeader String AUTH_TOKEN){
+		String[] roles = {"Trainee"};
+		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+			return null;
+		Account user = loginService.findLoggedinUser(AUTH_TOKEN);
+		List<Aanbieding> aanbiedingen = aanbiedingService.getOnbeoordeeldDoorTrainee(user);
+		return aanbiedingen.stream().map(aanbieding -> aanbieding.maakAanbiedingAanKandidaat()).toList();
 	}
 }

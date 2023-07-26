@@ -39,4 +39,16 @@ public class AanbiedingService {
 		return vacature.getAanbiedingen().stream()
 				.filter(aanbieding -> aanbieding.isUitgenodigd() && !(aanbieding.isAfgewezen() || aanbieding.isAangenomen())).toList();
 	}
+
+	public List<Aanbieding> getAanbiedingenAanTrainee(Account user){
+		return user.getCurriculumVitae().getAanbiedingen().stream()
+				.filter(aanbieding -> aanbieding.isUitgenodigd() && !(aanbieding.isAfgewezen() || aanbieding.isAangenomen())).toList();
+	}
+
+	public List<Aanbieding> getOnbeoordeeldDoorTrainee(Account user){
+		return user.getCurriculumVitae().getAanbiedingen().stream()
+				.filter(aanbieding -> aanbieding.isUitgenodigd() && (aanbieding.isAfgewezen() || aanbieding.isAangenomen()))
+				//.filter(aanbieding -> aanbieding.getFeedback().stream().anyMatch(feedback -> !feedback.getAccount().equals(user)))
+				.toList();
+	}
 }

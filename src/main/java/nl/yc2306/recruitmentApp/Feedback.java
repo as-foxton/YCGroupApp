@@ -14,8 +14,18 @@ public class Feedback {
 	private long id;
 	@Column(nullable = false, length = 500)
 	private String mening;
-	@ManyToOne
+	@ManyToOne(optional = false)
+	private Aanbieding aanbieding;
+	@ManyToOne(optional = false)
 	private Account account;
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
 
 	public long getId() {
 		return id;
@@ -34,12 +44,12 @@ public class Feedback {
 	}
 
 
-	public Account getAccount() {
-		return account;
+	public Aanbieding getAanbieding() {
+		return aanbieding;
 	}
 
-	public void setAccount(Account account) {
-		this.account = account;
+	public void setAanbieding(Aanbieding aanbieding) {
+		this.aanbieding = aanbieding;
 	}
 
 }

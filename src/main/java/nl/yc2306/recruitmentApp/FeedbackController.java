@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import nl.yc2306.recruitmentApp.DTOs.SaveFeedbackDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,15 +49,18 @@ public class FeedbackController {
 	
 	// SAVE
 	@RequestMapping(method = RequestMethod.POST, value = "feedback/save")
-	public void SaveFeedback(@RequestHeader String AUTH_TOKEN, @RequestBody Feedback feedback)
+	public void SaveFeedback(@RequestHeader String AUTH_TOKEN, @RequestBody SaveFeedbackDTO feedback)
 	{
-		String[] roles = {"Accountmanager", "Trainee", "Opdrachtgever"};
+		String[] roles = {"Trainee", "Opdrachtgever"};
 		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
 			return;
 		Account account = loginService.findLoggedinUser(AUTH_TOKEN);
 		if (account != null) {
-			feedback.setAccount(account);
-			service.Save(feedback);
+			Feedback f = new Feedback();
+			f.setMening(feedback.getMening());
+			f.setAccount(account);
+			f.setAanbieding(serviceAanbieding.find(feedback.getAanbiedingId()).get());
+			service.Save(f);
 		}
 	}
 

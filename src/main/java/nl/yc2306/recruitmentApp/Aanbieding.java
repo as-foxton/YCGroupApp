@@ -1,15 +1,11 @@
 package nl.yc2306.recruitmentApp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import nl.yc2306.recruitmentApp.DTOs.AanbiedingAanBedrijf;
 import nl.yc2306.recruitmentApp.DTOs.AanbiedingAanKandidaat;
 
@@ -27,6 +23,8 @@ public class Aanbieding {
 	@JsonIgnore
 	@ManyToOne(optional = false)
 	private CurriculumVitae curriculumVitae;
+	@OneToMany(mappedBy = "aanbieding")
+	private List<Feedback> feedback;
 	
 	@Column(nullable = false)
 	private LocalDateTime createdOn;
@@ -87,6 +85,14 @@ public class Aanbieding {
 
 	public boolean isAangenomen() {
 		return aangenomen;
+	}
+
+	public List<Feedback> getFeedback() {
+		return feedback;
+	}
+
+	public void setFeedback(List<Feedback> feedback) {
+		this.feedback = feedback;
 	}
 
 	public void setAangenomen(boolean aangenomen) {

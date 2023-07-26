@@ -23,6 +23,10 @@ public class AanbiedingService {
 		return newAanbieding;
 	}
 
+	public Optional<Aanbieding> find(long id){
+		return repo.findById(id);
+	}
+
 	public List<Aanbieding> getAanbiedingenVanVacature(long id, Account user){
 		Vacature vacature = vacatureService.findVacatureById(id).get();;
 		if(!vacature.getAccount().equals(user))
@@ -45,10 +49,12 @@ public class AanbiedingService {
 		Vacature vacature = vacatureService.findVacatureById(id).get();;
 		if(!vacature.getAccount().equals(user))
 			return new ArrayList<>();
-
+		System.out.println("test");
+		Aanbieding a = vacature.getAanbiedingen().stream()
+				.filter(aanbieding -> aanbieding.isUitgenodigd() && (aanbieding.isAfgewezen() || aanbieding.isAangenomen())).toList().get(0);
 		return vacature.getAanbiedingen().stream()
 				.filter(aanbieding -> aanbieding.isUitgenodigd() && (aanbieding.isAfgewezen() || aanbieding.isAangenomen()))
-				//.filter(aanbieding -> aanbieding.getFeedback().stream().anyMatch(feedback -> !feedback.getAccount().equals(user)))
+				.filter(aanbieding -> aanbieding.getFeedback().stream().anyMatch(feedback -> !feedback.getAccount().equals(user)))
 				.toList();
 	}
 
@@ -58,9 +64,10 @@ public class AanbiedingService {
 	}
 
 	public List<Aanbieding> getOnbeoordeeldDoorTrainee(Account user){
+
 		return user.getCurriculumVitae().getAanbiedingen().stream()
 				.filter(aanbieding -> aanbieding.isUitgenodigd() && (aanbieding.isAfgewezen() || aanbieding.isAangenomen()))
-				//.filter(aanbieding -> aanbieding.getFeedback().stream().anyMatch(feedback -> !feedback.getAccount().equals(user)))
+				.filter(aanbieding -> aanbieding.getFeedback().stream().anyMatch(feedback -> !feedback.getAccount().equals(user)))
 				.toList();
 	}
 

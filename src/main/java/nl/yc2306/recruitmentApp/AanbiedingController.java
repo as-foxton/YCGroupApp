@@ -61,6 +61,16 @@ public class AanbiedingController {
 		return aanbiedingen.stream().map(aanbieding -> aanbieding.maakAanbiedingAanBedrijf()).toList();
 	}
 
+	@GetMapping("/aanbieding/werkgever/onbeoordeeld/{vacatureId}")
+	public Iterable<AanbiedingAanBedrijf> onbeoordeeldeKandidaten(@RequestHeader String AUTH_TOKEN, @PathVariable long vacatureId){
+		String[] roles = {"Opdrachtgever"};
+		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+			return null;
+		Account user = loginService.findLoggedinUser(AUTH_TOKEN);
+		List<Aanbieding> aanbiedingen = aanbiedingService.getOnbeoordeeldVanVacature(vacatureId,user);
+		return aanbiedingen.stream().map(aanbieding -> aanbieding.maakAanbiedingAanBedrijf()).toList();
+	}
+
 	@GetMapping("aanbieding/werkgever/uitnodigen")
 	public void nodigUit(@RequestHeader String AUTH_TOKEN, @RequestParam long aanbieding){
 		String[] roles = {"Opdrachtgever"};

@@ -41,6 +41,17 @@ public class AanbiedingService {
 				.filter(aanbieding -> aanbieding.isUitgenodigd() && !(aanbieding.isAfgewezen() || aanbieding.isAangenomen())).toList();
 	}
 
+	public List<Aanbieding> getOnbeoordeeldVanVacature(long id, Account user){
+		Vacature vacature = vacatureService.findVacatureById(id).get();;
+		if(!vacature.getAccount().equals(user))
+			return new ArrayList<>();
+
+		return vacature.getAanbiedingen().stream()
+				.filter(aanbieding -> aanbieding.isUitgenodigd() && (aanbieding.isAfgewezen() || aanbieding.isAangenomen()))
+				//.filter(aanbieding -> aanbieding.getFeedback().stream().anyMatch(feedback -> !feedback.getAccount().equals(user)))
+				.toList();
+	}
+
 	public List<Aanbieding> getAanbiedingenAanTrainee(Account user){
 		return user.getCurriculumVitae().getAanbiedingen().stream()
 				.filter(aanbieding -> aanbieding.isUitgenodigd() && !(aanbieding.isAfgewezen() || aanbieding.isAangenomen())).toList();

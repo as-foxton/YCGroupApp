@@ -2,6 +2,7 @@ package nl.yc2306.recruitmentApp;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,5 +51,27 @@ public class AanbiedingService {
 				.filter(aanbieding -> aanbieding.isUitgenodigd() && (aanbieding.isAfgewezen() || aanbieding.isAangenomen()))
 				//.filter(aanbieding -> aanbieding.getFeedback().stream().anyMatch(feedback -> !feedback.getAccount().equals(user)))
 				.toList();
+	}
+
+	public void verstuurUitnodiging(Account user, long aanbiedingId){
+		Optional<Aanbieding> a = repo.findById(aanbiedingId);
+		if(!a.isPresent())
+			return;
+		Aanbieding aanbieding = a.get();
+		if(!aanbieding.getVacature().getAccount().equals(user))
+			return;
+		aanbieding.setUitgenodigd(true);
+		repo.save(aanbieding);
+	}
+
+	public void wijsAf(Account user, long aanbiedingId){
+		Optional<Aanbieding> a = repo.findById(aanbiedingId);
+		if(!a.isPresent())
+			return;
+		Aanbieding aanbieding = a.get();
+		if(!aanbieding.getVacature().getAccount().equals(user))
+			return;
+		aanbieding.setAfgewezen(true);
+		repo.save(aanbieding);
 	}
 }

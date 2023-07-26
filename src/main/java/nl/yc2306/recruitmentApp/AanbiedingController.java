@@ -5,13 +5,7 @@ import java.util.List;
 
 import nl.yc2306.recruitmentApp.DTOs.AanbiedingAanKandidaat;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import nl.yc2306.recruitmentApp.DTOs.AanbiedingAanBedrijf;
 import nl.yc2306.recruitmentApp.DTOs.AanbiedingDTO;
@@ -65,6 +59,24 @@ public class AanbiedingController {
 		Account user = loginService.findLoggedinUser(AUTH_TOKEN);
 		List<Aanbieding> aanbiedingen = aanbiedingService.getUitgenodigdenVanVacature(vacatureId,user);
 		return aanbiedingen.stream().map(aanbieding -> aanbieding.maakAanbiedingAanBedrijf()).toList();
+	}
+
+	@GetMapping("aanbieding/werkgever/uitnodigen")
+	public void nodigUit(@RequestHeader String AUTH_TOKEN, @RequestParam long aanbieding){
+		String[] roles = {"Opdrachtgever"};
+		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+			return;
+		Account user = loginService.findLoggedinUser(AUTH_TOKEN);
+		aanbiedingService.verstuurUitnodiging(user, aanbieding);
+	}
+
+	@GetMapping("aanbieding/werkgever/afwijzen")
+	public void wijsAf(@RequestHeader String AUTH_TOKEN, @RequestParam long aanbieding){
+		String[] roles = {"Opdrachtgever"};
+		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+			return;
+		Account user = loginService.findLoggedinUser(AUTH_TOKEN);
+		aanbiedingService.wijsAf(user, aanbieding);
 	}
 
 	@GetMapping("/aanbieding/kandidaat/uitnodiging")

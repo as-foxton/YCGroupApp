@@ -29,8 +29,10 @@ public class VacatureService {
 		return repository.findById(id);
 	}
 	
+
 	public Iterable<Vacature> findVacaturesByAccountId(long account) {
         return repository.findByAccountId(account);
+
 	}
 	
 	public void saveVacature(Vacature vacature) {

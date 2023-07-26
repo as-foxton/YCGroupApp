@@ -1,6 +1,11 @@
 package nl.yc2306.recruitmentApp;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Feedback {
@@ -11,6 +16,16 @@ public class Feedback {
 	private String mening;
 	@ManyToOne(optional = false)
 	private Aanbieding aanbieding;
+	@ManyToOne(optional = false)
+	private Account account;
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
 
 	public long getId() {
 		return id;

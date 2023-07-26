@@ -3,17 +3,18 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-    		<groupId>org.springframework.boot</groupId>
-   		<artifactId>spring-boot-starter-parent</artifactId>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.1.1</version>
+		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-		<groupId>nl.yc2306</groupId>
-		<artifactId>recruitmentApp</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-		<name>recruitmentApp</name>
-		<description>Recruitment App for YC</description>
+	<groupId>nl.yc2306</groupId>
+	<artifactId>recruitmentApp</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>recruitmentApp</name>
+	<description>Recruitment App for YC</description>
 	<properties>
-		<java.version>9</java.version>
-		<maven.compiler.release>7</maven.compiler.release>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -56,14 +57,7 @@
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
-				
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version> <!-- Change this version to 3.8.1 -->
-				<configuration>
-				<source>9</source> <!-- Change this to a supported version (e.g., 11, 14, or 17) -->
-				<target>9</target> <!-- Change this to a supported version (e.g., 11, 14, or 17) -->
-				</configuration>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>

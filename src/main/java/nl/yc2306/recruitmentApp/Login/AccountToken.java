@@ -20,7 +20,7 @@ public class AccountToken {
 	@OneToOne
 	private Account account;
 
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false, length = 100, unique = true)
 	private String token;
 	
 	@Column(nullable = false)

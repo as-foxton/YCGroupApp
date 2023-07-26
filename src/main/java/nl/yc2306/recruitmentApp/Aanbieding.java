@@ -1,16 +1,13 @@
 package nl.yc2306.recruitmentApp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import nl.yc2306.recruitmentApp.DTOs.AanbiedingAanBedrijf;
+import nl.yc2306.recruitmentApp.DTOs.AanbiedingAanKandidaat;
 
 @Entity
 public class Aanbieding {
@@ -26,6 +23,8 @@ public class Aanbieding {
 	@JsonIgnore
 	@ManyToOne(optional = false)
 	private CurriculumVitae curriculumVitae;
+	@OneToMany(mappedBy = "aanbieding")
+	private List<Feedback> feedback;
 	
 	@Column(nullable = false)
 	private LocalDateTime createdOn;
@@ -88,6 +87,14 @@ public class Aanbieding {
 		return aangenomen;
 	}
 
+	public List<Feedback> getFeedback() {
+		return feedback;
+	}
+
+	public void setFeedback(List<Feedback> feedback) {
+		this.feedback = feedback;
+	}
+
 	public void setAangenomen(boolean aangenomen) {
 		this.aangenomen = aangenomen;
 	}
@@ -101,6 +108,16 @@ public class Aanbieding {
 		response.setNaam(curriculumVitae.getPersoon().getNaam());
 		response.setLocatie(curriculumVitae.getLocatie());
 		response.setUitstroomRichting(curriculumVitae.getUitstroomRichting());
+		return response;
+	}
+
+	public AanbiedingAanKandidaat maakAanbiedingAanKandidaat(){
+		AanbiedingAanKandidaat response = new AanbiedingAanKandidaat();
+		response.setId(id);
+		response.setVacatureId(vacature.getId());
+		response.setBedrijf(vacature.getBedrijf());
+		response.setFunctie(vacature.getFunctie());
+		response.setLocatie(vacature.getLocatie());
 		return response;
 	}
 }

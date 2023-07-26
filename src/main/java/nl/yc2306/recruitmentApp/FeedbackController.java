@@ -44,17 +44,14 @@ public class FeedbackController {
 	@RequestMapping(method = RequestMethod.POST, value = "feedback/save")
 	public void SaveFeedback(@RequestHeader String AUTH_TOKEN, @RequestBody Feedback feedback)
 	{
+		String[] roles = {"Accountmanager", "Trainee", "Opdrachtgever"};
+		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+			return;
 		Account account = loginService.findLoggedinUser(AUTH_TOKEN);
 		if (account != null) {
 			feedback.setAccount(account);
 			service.Save(feedback);
 		}
-	}
-	
-	@RequestMapping(method = RequestMethod.POST, value = "feedback/savetocv")
-	public void SaveFeedbackToCV(@RequestBody Feedback feedback, @RequestParam long cvId)
-	{
-		service.SaveToCV(feedback, cvId);
 	}
 
 	// UPDATE
@@ -83,8 +80,11 @@ public class FeedbackController {
 	
 	// GET list of feedbacks
 	@RequestMapping("feedback/feedbacklist/{id}")
-	public List<FeedbackItem> GetFeedbackList (@PathVariable long id)
+	public List<FeedbackItem> GetFeedbackList (@RequestHeader String AUTH_TOKEN, @PathVariable long id)
 	{
+		String[] roles = {"Accountmanager", "Trainee", "Opdrachtgever"};
+		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+			return null;
 		Iterable<Feedback> list = service.GetAll();
 		List<FeedbackItem> dtoList = new ArrayList<FeedbackItem>();
         Account user = new Account();

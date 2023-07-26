@@ -27,9 +27,6 @@ public class Account {
 	@OneToMany(mappedBy = "account")
 	private List<Vacature> vacatures;
 
-	@OneToMany(mappedBy = "account")
-	private List<Feedback> feedbacks;
-
 	public long getId() {
 		return id;
 	}
@@ -94,5 +91,10 @@ public class Account {
 		if(this.id == other.getId())
 			return true;
 		return false;
+	}
+	
+	public CurriculumVitae getCurriculumVitae()
+	{
+		return curriculumVitae;
 	}
 }

@@ -45,8 +45,8 @@ jobs:
           
       - name: Set up environment variables
         run: |
-          echo "DB_user=${{ secrets.DB_USER }}" >> $GITHUB_ENV
-          echo "DB_pass=${{ secrets.DB_PASS }}" >> $GITHUB_ENV
+          echo "DB_user=${{ secrets.DB_USER }}"
+          echo "DB_pass=${{ secrets.DB_PASS }}"
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp

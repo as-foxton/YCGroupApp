@@ -89,6 +89,15 @@ public class AanbiedingController {
 		aanbiedingService.wijsAf(user, aanbieding);
 	}
 
+	@GetMapping("aanbieding/werkgever/aannemen")
+	public void neemAan(@RequestHeader String AUTH_TOKEN, @RequestParam long aanbieding){
+		String[] roles = {"Opdrachtgever"};
+		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+			return;
+		Account user = loginService.findLoggedinUser(AUTH_TOKEN);
+		aanbiedingService.neemAan(user, aanbieding);
+	}
+
 	@GetMapping("/aanbieding/kandidaat/uitnodiging")
 	public Iterable<AanbiedingAanKandidaat> uitnodigingen(@RequestHeader String AUTH_TOKEN){
 		String[] roles = {"Trainee"};

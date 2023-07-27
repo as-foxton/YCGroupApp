@@ -114,6 +114,10 @@ public class Account {
 		this.locatie = locatie;
 	}
 
+	public CurriculumVitae getCurriculumVitae() {
+		return curriculumVitae;
+	}
+
 	public void setCurriculumVitae(CurriculumVitae curriculumVitae) {
 		this.curriculumVitae = curriculumVitae;
 	}

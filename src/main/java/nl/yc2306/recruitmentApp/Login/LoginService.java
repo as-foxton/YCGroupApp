@@ -1,6 +1,7 @@
 package nl.yc2306.recruitmentApp.Login;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +42,16 @@ public class LoginService {
 
         	accountToken.setToken(tokenService.generateToken());
         	accountToken.setExpiresAt(LocalDateTime.now().plusSeconds(expirationTime));
-    		accountToken = accountTokenService.save(accountToken);
+            boolean notSaved = true;
+            while(notSaved){
+                try{
+                    accountToken = accountTokenService.save(accountToken);
+                    notSaved = false;
+                }catch(TokenInUseException e){
+                    System.out.println(e.getMessage());
+                }
+            }
+
 
             return accountToken;
         }
@@ -75,11 +85,12 @@ public class LoginService {
         return false;
     }
 
-    public boolean isAuthorised(String token, String[] pages){
-        for (String page:pages) {
-            if(isAuthorised(token, page))
-                return true;
-        }
+    public boolean isAuthorised(String token, String[] roles){
+        Account user = findLoggedinUser(token);
+        if(user == null)
+            return false;
+        if(Arrays.stream(roles).anyMatch(s -> s.toLowerCase().equals(user.getRol().toLowerCase())))
+            return true;
         return false;
     }
 

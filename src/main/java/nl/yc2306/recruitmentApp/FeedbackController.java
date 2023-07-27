@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import nl.yc2306.recruitmentApp.DTOs.SaveFeedbackDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,12 @@ import nl.yc2306.recruitmentApp.Login.LoginService;
 public class FeedbackController {
 	@Autowired
 	public FeedbackService service;
+	@Autowired
+	public AccountService serviceAccount;
+	@Autowired
+	public AanbiedingService serviceAanbieding;
+	@Autowired
+	public CurriculumVitaeService serviceCv;
 	
 	@Autowired
 	public LoginService loginService;
@@ -42,19 +49,19 @@ public class FeedbackController {
 	
 	// SAVE
 	@RequestMapping(method = RequestMethod.POST, value = "feedback/save")
-	public void SaveFeedback(@RequestHeader String AUTH_TOKEN, @RequestBody Feedback feedback)
+	public void SaveFeedback(@RequestHeader String AUTH_TOKEN, @RequestBody SaveFeedbackDTO feedback)
 	{
+		String[] roles = {"Trainee", "Opdrachtgever"};
+		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+			return;
 		Account account = loginService.findLoggedinUser(AUTH_TOKEN);
 		if (account != null) {
-			feedback.setAccount(account);
-			service.Save(feedback);
+			Feedback f = new Feedback();
+			f.setMening(feedback.getMening());
+			f.setAccount(account);
+			f.setAanbieding(serviceAanbieding.find(feedback.getAanbiedingId()).get());
+			service.Save(f);
 		}
-	}
-	
-	@RequestMapping(method = RequestMethod.POST, value = "feedback/savetocv")
-	public void SaveFeedbackToCV(@RequestBody Feedback feedback, @RequestParam long cvId)
-	{
-		service.SaveToCV(feedback, cvId);
 	}
 
 	// UPDATE
@@ -83,62 +90,64 @@ public class FeedbackController {
 	
 	// GET list of feedbacks
 	@RequestMapping("feedback/feedbacklist/{id}")
-	public List<FeedbackItem> GetFeedbackList (@PathVariable long id)
+	public List<FeedbackItem> GetFeedbackList (@RequestHeader String AUTH_TOKEN, @PathVariable long id)
 	{
+		String[] roles = {"Accountmanager", "Trainee", "Opdrachtgever"};
+		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
+			return null;
 		Iterable<Feedback> list = service.GetAll();
 		List<FeedbackItem> dtoList = new ArrayList<FeedbackItem>();
         Account user = new Account();
-        String rol = ""; // rollen filter voor feedbacks
         
-        if (service.FindAccount(id).isPresent())
+        if (serviceAccount.vindBijId(id).isPresent())
 		{
         	// Get Account from Optional<Account>
-			user = service.FindAccount(id).get();
+			user = serviceAccount.vindBijId(id).get();
 		}
-        
-        rol = user.getRol();
-        
-		for (Feedback fb: list) {
-			FeedbackItem fItem = new FeedbackItem();
 
+
+		for (Feedback fb: list) 
+		{
+			FeedbackItem fItem = new FeedbackItem();
+			
 			// Verander rol op basis van rol van ingelogde gebruiker
-        	switch(rol)
+        	switch(user.getRol())
             {
-//            	case "administrator": // Show all feedbacks
-//            		break;
-//            	case "accountmanager": // Show all feedbacks
-//            		break;
-            	case "opdrachtgever": // Show only feedbacks of trainees
-            		rol = "trainee";
+            	case "opdrachtgever": // Show only feedbacks of opdrachtgever
+            		if (fb.getAanbieding().getVacature().getAccount().getId() == user.getId())
+            		{
+            			fItem.setId(fb.getId());
+                		fItem.setAccountName(fb.getAanbieding().getCurriculumVitae().getPersoon().getNaam());
+                		fItem.setLocatie(fb.getAanbieding().getCurriculumVitae().getPersoon().getLocatie());
+                		fItem.setMening(fb.getMening());
+                		fItem.setAangenomen(fb.getAanbieding().isAfgewezen());
+                		
+                		dtoList.add(fItem);
+            		}
             		break;
-            	case "trainee": // Show only feedbacks of opdrachtgever
-            		rol = "opdrachtgever";
+            	case "trainee": // Show only feedbacks of trainees
+            		if (fb.getAanbieding().getCurriculumVitae().getId() == user.getCurriculumVitae().getId())
+            		{
+            			fItem.setId(fb.getId());
+                		fItem.setAccountName(user.getNaam());
+                		fItem.setBedrijf(fb.getAanbieding().getVacature().getBedrijf());
+                		fItem.setLocatie(fb.getAanbieding().getVacature().getLocatie());
+                		fItem.setMening(fb.getMening());
+                		fItem.setAangenomen(fb.getAanbieding().isAfgewezen());
+                		
+                		dtoList.add(fItem);
+            		}
             		break;
         		default: // Show all feedbacks
-        			rol = "";
+        			fItem.setId(fb.getId());
+            		fItem.setAccountName(user.getNaam());
+            		fItem.setBedrijf(user.getBedrijf());
+            		fItem.setMening(fb.getMening());
+            		fItem.setAangenomen(fb.getAanbieding().isAfgewezen());
+            		
+            		dtoList.add(fItem);
         			break;
             }
-        	
-        	if (fb.getAccount().getRol() == rol)
-        	{
-        		fItem.setId(fb.getId());
-                fItem.setAccountName(fb.getAccount().getNaam());
-                fItem.setBedrijf(fb.getAccount().getBedrijf());
-                fItem.setMening(fb.getMening());
-                // Get "aangenomen" van Aanbieding Class
-                //fItem.setAangenomen();
-        	}
-        	else
-        	{
-        		fItem.setId(fb.getId());
-                fItem.setAccountName(fb.getAccount().getNaam());
-                fItem.setBedrijf(fb.getAccount().getBedrijf());
-                fItem.setMening(fb.getMening());
-                // Get "aangenomen" van Aanbieding Class
-                //fItem.setAangenomen();
-        	}
-
-            dtoList.add(fItem);
         }
 
 		return dtoList;

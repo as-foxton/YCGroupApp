@@ -83,6 +83,14 @@ public class CurriculumVitae  implements HasLocatie {
         return persoon.getLocatie();
     }
 
+    public List<Aanbieding> getAanbiedingen() {
+        return aanbiedingen;
+    }
+
+    public void setAanbiedingen(List<Aanbieding> aanbiedingen) {
+        this.aanbiedingen = aanbiedingen;
+    }
+
     public BeknoptCV maakBeknopt(){
         BeknoptCV beknopt = new BeknoptCV();
         beknopt.setId(id);

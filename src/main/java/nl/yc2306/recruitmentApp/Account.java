@@ -114,6 +114,10 @@ public class Account {
 		this.locatie = locatie;
 	}
 
+	public CurriculumVitae getCurriculumVitae() {
+		return curriculumVitae;
+	}
+
 	public void setCurriculumVitae(CurriculumVitae curriculumVitae) {
 		this.curriculumVitae = curriculumVitae;
 	}
@@ -141,5 +145,4 @@ public class Account {
 	public void setAccountToken(AccountToken accountToken) {
 		this.accountToken = accountToken;
 	}
-	
 }

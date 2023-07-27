@@ -51,6 +51,11 @@
 			<artifactId>unirest-java</artifactId>
 			<version>3.14.1</version>
 		</dependency>
+		<dependency>
+		    <groupId>com.h2database</groupId>
+		    <artifactId>h2</artifactId>
+		    <scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -58,7 +63,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version> <!-- Updated to a version that supports Java 17 -->
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>

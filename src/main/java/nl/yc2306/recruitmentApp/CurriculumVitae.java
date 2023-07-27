@@ -2,6 +2,7 @@ package nl.yc2306.recruitmentApp;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,9 +26,11 @@ public class CurriculumVitae  implements HasLocatie {
     private String omschrijving;
     @Column(length = 500, nullable = false)
     private String werkHistorie;
+
+    @JsonIgnore
     @OneToOne
     private Account persoon;
-    
+    @JsonIgnore
 	@OneToMany(mappedBy = "curriculumVitae")
 	private List<Aanbieding> aanbiedingen;
 

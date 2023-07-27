@@ -3,8 +3,10 @@ package nl.yc2306.recruitmentApp.DTOs;
 public class FeedbackItem {
 	private long id;
 	private String accountName;
+	private String rol;
 	private String bedrijf;
 	private String locatie;
+	private String functie;
 	private String mening;
 	private boolean aangenomen;
 	
@@ -39,7 +41,23 @@ public class FeedbackItem {
 	public void setMening(String mening) {
 		this.mening = mening;
 	}
-	
+
+	public String getRol() {
+		return rol;
+	}
+
+	public void setRol(String rol) {
+		this.rol = rol;
+	}
+
+	public String getFunctie() {
+		return functie;
+	}
+
+	public void setFunctie(String functie) {
+		this.functie = functie;
+	}
+
 	public boolean isAangenomen() {
 		return aangenomen;
 	}

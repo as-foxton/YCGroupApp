@@ -117,7 +117,7 @@ public class FeedbackController {
 					fItem.setAccountName(fb.getAanbieding().getCurriculumVitae().getPersoon().getNaam());
 					fItem.setLocatie(fb.getAanbieding().getCurriculumVitae().getPersoon().getLocatie());
 					fItem.setMening(fb.getMening());
-					fItem.setAangenomen(fb.getAanbieding().isAfgewezen());
+					fItem.setAangenomen(fb.getAanbieding().isAangenomen());
 
 					dtoList.add(fItem);
             		break;
@@ -127,16 +127,19 @@ public class FeedbackController {
 					fItem.setBedrijf(fb.getAanbieding().getVacature().getBedrijf());
 					fItem.setLocatie(fb.getAanbieding().getVacature().getLocatie());
 					fItem.setMening(fb.getMening());
-					fItem.setAangenomen(fb.getAanbieding().isAfgewezen());
+					fItem.setAangenomen(fb.getAanbieding().isAangenomen());
 
 					dtoList.add(fItem);
             		break;
         		default: // Show all feedbacks
         			fItem.setId(fb.getId());
-            		fItem.setAccountName(user.getNaam());
-            		fItem.setBedrijf(user.getBedrijf());
+					fItem.setRol(fb.getAccount().getRol());
+            		fItem.setAccountName(fb.getAanbieding().getCurriculumVitae().getPersoon().getNaam());
+            		fItem.setBedrijf(fb.getAanbieding().getVacature().getBedrijf());
+					fItem.setFunctie(fb.getAanbieding().getVacature().getFunctie());
+					fItem.setLocatie(fb.getAanbieding().getVacature().getLocatie());
             		fItem.setMening(fb.getMening());
-            		fItem.setAangenomen(fb.getAanbieding().isAfgewezen());
+            		fItem.setAangenomen(fb.getAanbieding().isAangenomen());
             		
             		dtoList.add(fItem);
         			break;

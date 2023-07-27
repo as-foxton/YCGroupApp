@@ -1,5 +1,6 @@
 package nl.yc2306.recruitmentApp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,8 +15,10 @@ public class Feedback {
 	private long id;
 	@Column(nullable = false, length = 500)
 	private String mening;
+	@JsonIgnore
 	@ManyToOne(optional = false)
 	private Aanbieding aanbieding;
+	@JsonIgnore
 	@ManyToOne(optional = false)
 	private Account account;
 

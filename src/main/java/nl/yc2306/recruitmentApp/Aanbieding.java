@@ -23,6 +23,7 @@ public class Aanbieding {
 	@JsonIgnore
 	@ManyToOne(optional = false)
 	private CurriculumVitae curriculumVitae;
+	@JsonIgnore
 	@OneToMany(mappedBy = "aanbieding")
 	private List<Feedback> feedback;
 	

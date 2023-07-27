@@ -95,48 +95,41 @@ public class FeedbackController {
 		String[] roles = {"Accountmanager", "Trainee", "Opdrachtgever"};
 		if(!loginService.isAuthorised(AUTH_TOKEN, roles))
 			return null;
-		Iterable<Feedback> list = service.GetAll();
-		List<FeedbackItem> dtoList = new ArrayList<FeedbackItem>();
-        Account user = new Account();
-        
-        if (serviceAccount.vindBijId(id).isPresent())
-		{
-        	// Get Account from Optional<Account>
-			user = serviceAccount.vindBijId(id).get();
-		}
 
+		Iterable<Feedback> list;
+		List<FeedbackItem> dtoList = new ArrayList<FeedbackItem>();
+        Account user = loginService.findLoggedinUser(AUTH_TOKEN);
+
+		if(user.getRol().toLowerCase().equals("accountmanager"))
+			list = service.GetAll();
+		else
+			list = user.getFeedbacks();
 
 		for (Feedback fb: list) 
 		{
 			FeedbackItem fItem = new FeedbackItem();
 			
 			// Verander rol op basis van rol van ingelogde gebruiker
-        	switch(user.getRol())
+        	switch(user.getRol().toLowerCase())
             {
             	case "opdrachtgever": // Show only feedbacks of opdrachtgever
-            		if (fb.getAanbieding().getVacature().getAccount().getId() == user.getId())
-            		{
-            			fItem.setId(fb.getId());
-                		fItem.setAccountName(fb.getAanbieding().getCurriculumVitae().getPersoon().getNaam());
-                		fItem.setLocatie(fb.getAanbieding().getCurriculumVitae().getPersoon().getLocatie());
-                		fItem.setMening(fb.getMening());
-                		fItem.setAangenomen(fb.getAanbieding().isAfgewezen());
-                		
-                		dtoList.add(fItem);
-            		}
+					fItem.setId(fb.getId());
+					fItem.setAccountName(fb.getAanbieding().getCurriculumVitae().getPersoon().getNaam());
+					fItem.setLocatie(fb.getAanbieding().getCurriculumVitae().getPersoon().getLocatie());
+					fItem.setMening(fb.getMening());
+					fItem.setAangenomen(fb.getAanbieding().isAfgewezen());
+
+					dtoList.add(fItem);
             		break;
             	case "trainee": // Show only feedbacks of trainees
-            		if (fb.getAanbieding().getCurriculumVitae().getId() == user.getCurriculumVitae().getId())
-            		{
-            			fItem.setId(fb.getId());
-                		fItem.setAccountName(user.getNaam());
-                		fItem.setBedrijf(fb.getAanbieding().getVacature().getBedrijf());
-                		fItem.setLocatie(fb.getAanbieding().getVacature().getLocatie());
-                		fItem.setMening(fb.getMening());
-                		fItem.setAangenomen(fb.getAanbieding().isAfgewezen());
-                		
-                		dtoList.add(fItem);
-            		}
+					fItem.setId(fb.getId());
+					fItem.setAccountName(user.getNaam());
+					fItem.setBedrijf(fb.getAanbieding().getVacature().getBedrijf());
+					fItem.setLocatie(fb.getAanbieding().getVacature().getLocatie());
+					fItem.setMening(fb.getMening());
+					fItem.setAangenomen(fb.getAanbieding().isAfgewezen());
+
+					dtoList.add(fItem);
             		break;
         		default: // Show all feedbacks
         			fItem.setId(fb.getId());

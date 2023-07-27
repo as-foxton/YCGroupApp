@@ -90,4 +90,15 @@ public class AanbiedingService {
 		aanbieding.setAfgewezen(true);
 		repo.save(aanbieding);
 	}
+
+	public void neemAan(Account user, long aanbiedingId){
+		Optional<Aanbieding> a = repo.findById(aanbiedingId);
+		if(!a.isPresent())
+			return;
+		Aanbieding aanbieding = a.get();
+		if(!aanbieding.getVacature().getAccount().equals(user))
+			return;
+		aanbieding.setAangenomen(true);
+		repo.save(aanbieding);
+	}
 }

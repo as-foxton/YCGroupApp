@@ -42,7 +42,16 @@ public class LoginService {
 
         	accountToken.setToken(tokenService.generateToken());
         	accountToken.setExpiresAt(LocalDateTime.now().plusSeconds(expirationTime));
-    		accountToken = accountTokenService.save(accountToken);
+            boolean notSaved = true;
+            while(notSaved){
+                try{
+                    accountToken = accountTokenService.save(accountToken);
+                    notSaved = false;
+                }catch(TokenInUseException e){
+                    System.out.println(e.getMessage());
+                }
+            }
+
 
             return accountToken;
         }
